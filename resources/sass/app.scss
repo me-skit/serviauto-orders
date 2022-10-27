@@ -1,0 +1,17 @@
+// Fonts
+//@import url('https://fonts.googleapis.com/css?family=Nunito');
+@import url('https://fonts.googleapis.com/css2?family=Roboto');
+
+// Variables
+@import 'variables';
+
+// Bootstrap
+@import '~bootstrap/scss/bootstrap';
+
+// FontAwesom
+@import '../css/fontawesome_5.15.3/fontawesome.css';
+@import '../css/fontawesome_5.15.3/regular.css';
+@import '../css/fontawesome_5.15.3/solid.css';
+
+// custom css
+@import '../css/app.css';
