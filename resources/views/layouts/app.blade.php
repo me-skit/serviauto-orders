@@ -15,7 +15,7 @@
   <!-- Styles -->
   <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
-<body>
+<body class="bg-white">
   <div id="app">
     @auth
     <nav class="navbar navbar-expand-md navbar-dark bg-dark shadow-sm">
@@ -31,15 +31,15 @@
             <!-- Left Side Of Navbar -->
             <ul class="navbar-nav me-auto">
               @auth
+                <li class="nav-item menu-item">
+                  <a class="nav-link" href="{{ route('clients.index') }}"><i class="far fa-user-friends"></i> Clientes</a>
+                </li>
                 <li class="nav-item">
                   <a class="nav-link menu-item" href="{{ route('orders.index') }}"><i class="far fa-clipboard-list"></i> Ordenes</a>
                 </li>
                 <li class="nav-item menu-item">
-                  <a class="nav-link" href="{{ route('clients.index') }}"><i class="far fa-user-friends"></i> Clientes</a>
-                </li>
-                <li class="nav-item menu-item">
                   <a class="nav-link" href="{{ route('items.index') }}"><i class="far fa-tools"></i> Artículos & Servicios</a>
-                </li>    
+                </li>
               @endauth
             </ul>
 
@@ -77,10 +77,13 @@
     </nav>
     @endauth
 
-
-    <main class="py-4">
-      @yield('content')
-    </main>
+      <div class="content pt-3 pb-2">
+        <div class="container">
+          @include('layouts.flash-message')
+        </div>
+  
+        @yield('content')
+      </div>
   </div>
 </body>
 </html>

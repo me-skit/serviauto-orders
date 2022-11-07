@@ -6,7 +6,7 @@
       <div class="col-md-10 col-lg-8">
         <div class="card">
           <div class="card-header">
-            <span class="fw-bold"><i class="far fa-user-plus"></i> {{ __('Datos de Nuevo Cliente') }}</span>
+            <span class="fw-bold"><i class="far fa-user-plus"></i> {{ __('Nuevo Cliente') }}</span>
           </div>
           <div class="card-body">
             <form action="{{ route('clients.store') }}" method="POST">
@@ -48,7 +48,7 @@
                     </span>
                   @enderror
                 </div>
-              </div>              
+              </div>
 
               <div class="row">
                 <div class="col-md-10 text-end">

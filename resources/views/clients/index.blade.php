@@ -28,7 +28,7 @@
                 <td class="align-middle">{{ $client->name }}</td>
                 <td class="align-middle">{{ $client->phone_number }}</td>
                 <td class="text-center">
-                    <a href="{{ route('clients.edit', $client->id ) }}" class="btn btn-primary btn-sm"><i class="far fa-pencil-alt"></i> <span class="d-none d-md-inline">Modificar</span></a>
+                    <a href="{{ route('clients.show', $client->id ) }}" class="btn btn-secondary btn-sm"><i class="far fa-eye"></i><span class="d-none d-md-inline"> Detalles</span></a>
                 </td>
               </tr>
             @endforeach

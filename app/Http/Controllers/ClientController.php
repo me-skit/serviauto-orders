@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ClientRequest;
 use App\Models\Client;
-use Illuminate\Http\Request;
 
 class ClientController extends Controller
 {
@@ -45,16 +45,25 @@ class ClientController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ClientRequest $request)
     {
-        $data = $request->validate([
-            'name' => 'required',
-            'phone_number' => 'nullable'
-        ]);
+        $data = $request->validated();
+        $client = Client::create($data);
 
-        Client::create($data);
+        return redirect()->route('clients.show', $client->id);
+    }
 
-        return redirect('/clients');
+    /**
+     * Display the specified resource.
+     *
+     * @param  \App\Models\Client  $client
+     * @return \Illuminate\Http\Response
+     */
+    public function show(Client $client)
+    {
+        $order_list = $client->orders()->paginate(30);
+
+        return view('clients.show', compact('client', 'order_list'));
     }
 
     /**
@@ -75,13 +84,9 @@ class ClientController extends Controller
      * @param  \App\Models\Client  $client
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Client $client)
+    public function update(ClientRequest $request, Client $client)
     {
-        $data = $request->validate([
-            'name' => 'required',
-            'phone_number' => 'nullable'
-        ]);
-
+        $data = $request->validated();
         $client->fill($data);
         $client->save();
 

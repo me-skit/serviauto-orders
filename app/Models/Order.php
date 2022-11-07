@@ -43,5 +43,5 @@ class Order extends Model
                                            JOIN items ON prices_list.item_id = items.id"), [$this->id]);
 
         return $prices_list;
-    }    
+    }
 }
