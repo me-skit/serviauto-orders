@@ -3,6 +3,8 @@
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\CarController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,21 +19,24 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return redirect()->route('orders.index');
+    return redirect()->route('clients.index');
 });
 
 // ------------- Added by UI authentication
-
 Auth::routes();
 
 // ------------- Custom routes
+
+Route::resource('clients', ClientController::class)->except([
+    'destroy'
+]);
 
 Route::resource('orders', OrderController::class)->except([
     'destroy'
 ]);
 
-Route::resource('clients', ClientController::class)->except([
-    'destroy'
+Route::resource('cars', CarController::class)->except([
+    'index', 'show'
 ]);
 
 Route::resource('items', ItemController::class)->except([
