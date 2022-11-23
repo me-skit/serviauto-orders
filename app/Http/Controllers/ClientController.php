@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ClientRequest;
 use App\Models\Client;
+use Illuminate\Http\Request;
+use App\Http\Requests\ClientRequest;
 
 class ClientController extends Controller
 {
@@ -59,11 +60,14 @@ class ClientController extends Controller
      * @param  \App\Models\Client  $client
      * @return \Illuminate\Http\Response
      */
-    public function show(Client $client)
+    public function show(Request $request, Client $client)
     {
-        $order_list = $client->orders()->paginate(30);
+        $tab = $request->get('tab');
 
-        return view('clients.show', compact('client', 'order_list'));
+        $order_list = $client->orders()->paginate(30);
+        $car_list = $client->cars()->paginate(30);
+
+        return view('clients.show', compact('client', 'tab', 'order_list', 'car_list'));
     }
 
     /**
