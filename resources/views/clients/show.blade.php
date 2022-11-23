@@ -29,6 +29,10 @@
               @include('orders.list')
             </div>
             <div class="tab-pane fade p-2{{ ($tab === 'cars') ? ' show active': '' }}" id="cars-tab-pane" role="tabpanel" aria-labelledby="cars-tab" tabindex="0">
+              <div class="text-end">
+                <a href="{{ route('cars.create') . '?code=' . $client->id }}" class="btn btn-success"><i class="fas fa-plus-circle"></i><span class="d-none d-lg-inline"> Agregar</span></a>
+              </div>
+
               @include('cars.list')
             </div>
           </div>

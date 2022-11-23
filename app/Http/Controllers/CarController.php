@@ -50,4 +50,39 @@ class CarController extends Controller
         // return redirect(route('clients.show', $code) . '?tab=' . $tab);
         return redirect('/clients/' . $code . '?tab=cars');
     }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\Car  $car
+     * @return \Illuminate\Http\Response
+     */
+    public function edit(Request $request, Car $car)
+    {
+        $code = $request->get('code');
+
+        return view('cars.edit', compact('car', 'code'));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \App\Http\Requests\CarRequest  $request
+     * @param  \App\Models\Car  $car
+     * @return \Illuminate\Http\Response
+     */
+    public function update(CarRequest $request, Car $car)
+    {
+        $code = $request->get('code');
+
+        $data = $request->validated();
+        $data['updated_by'] = Auth::id();
+
+        $car->fill($data);
+        $car->save();
+
+        // return redirect(route('clients.show', $code) . '?tab=' . $tab);
+        return redirect('/clients/' . $code . '?tab=cars');
+    }
 }
