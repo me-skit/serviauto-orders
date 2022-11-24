@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Item;
-use App\Models\Price;
-use Illuminate\Http\Request;
+use App\Http\Requests\ItemRequest;
+use Illuminate\Database\QueryException;
 
 class ItemController extends Controller
 {
@@ -25,7 +25,7 @@ class ItemController extends Controller
      */
     public function index()
     {
-        $items = Item::paginate(10);
+        $items = Item::paginate(35);
 
         return view('items.index', compact('items'));
     }
@@ -43,24 +43,13 @@ class ItemController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\ItemRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ItemRequest $request)
     {
-        $data_item = $request->validate([
-            'description' => 'required'
-        ]);
-
-        $data_price = $request->validate([
-            'cost' => ['nullable', 'regex:/^\d+(\.\d{1,})?$/'],
-            'sell_price' => ['required', 'regex:/^\d+(\.\d{1,})?$/']
-        ]);
-
-        $item = Item::create($data_item);
-
-        $data_price['item_id'] = $item->id;
-        Price::create($data_price);
+        $data = $request->validated();
+        Item::create($data);
 
         return redirect('/items');
     }
@@ -71,45 +60,41 @@ class ItemController extends Controller
      * @param  \App\Models\Item  $item
      * @return \Illuminate\Http\Response
      */
-    public function edit(Request $request, Item $item)
+    public function edit(Item $item)
     {
-        $latest_price = $item->latestPrice;
-        $action = $request->get('action') ? $request->get('action') : null;
-        return view('items.edit', compact('item', 'latest_price', 'action'));
+        return view('items.edit', compact('item'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\ItemRequest  $request
      * @param  \App\Models\Item  $item
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Item $item)
+    public function update(ItemRequest $request, Item $item)
     {
-        $data_item = $request->validate([
-            'description' => 'required'
-        ]);
-
-        $data_price = $request->validate([
-            'cost' => ['nullable', 'regex:/^\d+(\.\d{1,})?$/'],
-            'sell_price' => ['required', 'regex:/^\d+(\.\d{1,})?$/']
-        ]);
-
-        $item->fill($data_item);
+        $data = $request->validated();
+        $item->fill($data);
         $item->save();
 
-        $latest_price = $item->latestPrice;
-        if ($request->get('action') and $latest_price->sell_price != $data_price['sell_price'])
-        {
-            $data_price['item_id'] = $item->id;
-            Price::create($data_price);
-            return redirect('/items');
+        return redirect('/items');
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\Models\Item  $item
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(Item $item)
+    {
+        try {
+            $item->delete();
+        } catch (QueryException $e) {
+            return redirect('/items')->with('error','Datos de repuesto/servicio no pudo eliminarse, error desconocido.');
         }
 
-        $latest_price->fill($data_price);
-        $latest_price->save();
-
-        return redirect('/items');
+        return redirect('/items')->with('info','Datos de "' . $item->description . '" eliminado.');
     }
 }

@@ -40,5 +40,5 @@ Route::resource('cars', CarController::class)->except([
 ]);
 
 Route::resource('items', ItemController::class)->except([
-    'destroy', 'show'
+    'show'
 ]);
