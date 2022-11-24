@@ -40,4 +40,6 @@
       </div>
     </div>
   </div>
+
+  @include('cars.modal-delete')
 @endsection

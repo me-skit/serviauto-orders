@@ -274,3 +274,30 @@ const navLinks = document.getElementsByClassName('menu-item');
 Array.prototype.forEach.call(navLinks, link => {
   link.addEventListener('click', () => setActive(link));
 });
+
+
+
+
+
+
+
+
+
+// setting the delete car action
+setPersonDeleteAction = () => {
+  let delcar_buttons = document.getElementsByClassName('btn-delcar');
+  let form = document.getElementById('deletecar-form');
+  
+  Array.prototype.forEach.call(delcar_buttons, btn => btn.addEventListener('click', (event) => {
+    form.action = form.dataset.root + '/cars/' +  event.currentTarget.dataset.car + '?code=' + form.dataset.code;
+    const row = event.currentTarget.parentNode.parentNode;
+
+    document.getElementById('car-info-plate').innerText = row.cells[5].innerHTML;
+    document.getElementById('car-info-brand').innerText = row.cells[1].innerHTML;
+    document.getElementById('car-info-line').innerText = row.cells[2].innerHTML;
+    document.getElementById('car-info-year').innerText = row.cells[3].innerHTML;
+    document.getElementById('car-info-color').innerText = row.cells[4].innerHTML;
+  }));
+}
+
+setPersonDeleteAction();

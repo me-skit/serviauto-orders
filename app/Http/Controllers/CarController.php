@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Car;
 use Illuminate\Http\Request;
 use App\Http\Requests\CarRequest;
+use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Auth;
 
 class CarController extends Controller
@@ -84,5 +85,30 @@ class CarController extends Controller
 
         // return redirect(route('clients.show', $code) . '?tab=' . $tab);
         return redirect('/clients/' . $code . '?tab=cars');
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\Car  $car
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(Request $request, Car $car)
+    {
+        $code = $request->get('code');
+
+        if ($car->orders()->count())
+        {
+            return redirect('/clients/' . $code . '?tab=cars')->with('error','Datos de vehículo no puede eliminarse, se encuentra asociado a alguna orden.');
+        }
+
+        try {
+            $car->delete();
+        } catch (QueryException $e) {
+            return redirect('/clients/' . $code . '?tab=cars')->with('error','Datos de vehículo no pudo eliminarse, error desconocido.');
+        }
+
+        return redirect('/clients/' . $code . '?tab=cars')->with('info','Datos de vehículo eliminado.');
     }
 }
