@@ -284,7 +284,7 @@ Array.prototype.forEach.call(navLinks, link => {
 
 
 // setting the delete car action
-setPersonDeleteAction = () => {
+setDeleteCarAction = () => {
   let delcar_buttons = document.getElementsByClassName('btn-delcar');
   let form = document.getElementById('deletecar-form');
   
@@ -300,4 +300,19 @@ setPersonDeleteAction = () => {
   }));
 }
 
-setPersonDeleteAction();
+setDeleteCarAction();
+
+// setting the delete item action
+setDeleteItemAction = () => {
+  let delitem_buttons = document.getElementsByClassName('btn-delitem');
+  let form = document.getElementById('deleteitem-form');
+  
+  Array.prototype.forEach.call(delitem_buttons, btn => btn.addEventListener('click', (event) => {
+    form.action = form.dataset.root + '/items/' +  event.currentTarget.dataset.item;
+    const row = event.currentTarget.parentNode.parentNode;
+    console.log(row);
+    document.getElementById('item-info-description').innerText = row.cells[1].innerHTML;
+  }));
+}
+
+setDeleteItemAction();
