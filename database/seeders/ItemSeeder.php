@@ -17,47 +17,37 @@ class ItemSeeder extends Seeder
     {
         $item = new Item();
         $item->description = "Litro de aceite ATF-MV Evolution";
+        $item->cost = 35.00;
+        $item->price = 45.00;
+        $item->stock = 100;
         $item->save();
-
-        $price = new Price();
-        $price->item_id = $item->id;
-        $price->sell_price = 45.00;
-        $price->save();
 
         $item = new Item();
         $item->description = "Filtro de aceite de caja automática";
+        $item->cost = 150.00;
+        $item->price = 190.00;
+        $item->stock = 100;
         $item->save();
-
-        $price = new Price();
-        $price->item_id = $item->id;
-        $price->sell_price = 190.00;
-        $price->save();        
 
         $item = new Item();
         $item->description = "Servicio a caja automática";
+        $item->cost = 200.00;
+        $item->price = 225.00;
+        $item->stock = 100;
         $item->save();
-
-        $price = new Price();
-        $price->item_id = $item->id;
-        $price->sell_price = 225.00;
-        $price->save();             
-        
+    
         $item = new Item();
         $item->description = "Galón de gasolina";
+        $item->cost = 40.00;
+        $item->price = 55.00;
+        $item->stock = 100;
         $item->save();
 
-        $price = new Price();
-        $price->item_id = $item->id;
-        $price->sell_price = 55.00;
-        $price->save();          
-        
         $item = new Item();
         $item->description = "Servicio de cambio de aceite";
+        $item->cost = 110.00;
+        $item->price = 150.00;
+        $item->stock = 100;
         $item->save();
-        
-        $price = new Price();
-        $price->item_id = $item->id;
-        $price->sell_price = 150.00;
-        $price->save();        
     }
 }

@@ -9,15 +9,35 @@ class Item extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['description'];
+    protected $fillable = ['description', 'cost', 'price', 'stock'];
 
-    public function prices()
+    public function getCostAttribute($value)
     {
-        return $this->hasMany(Price::class);
+        return $value ? $value / 100 : null;
     }
 
-    public function latestPrice()
+    public function getPriceAttribute($value)
     {
-        return $this->hasOne(Price::class)->latestOfMany();
+        return $value / 100;
+    }
+
+    public function setCostAttribute($value)
+    {
+        $this->attributes['cost'] = $value ? $value * 100 : null;
+    }
+
+    public function setPriceAttribute($value)
+    {
+        $this->attributes['price'] = $value * 100;
+    }
+
+    public function getFormattedCostAttribute()
+    {
+        return $this->cost ? "Q " .  number_format($this->cost, 2, '.', ',') : "";
+    }
+
+    public function getFormattedPriceAttribute()
+    {
+        return "Q " .  number_format($this->price, 2, '.', ',');
     }
 }
