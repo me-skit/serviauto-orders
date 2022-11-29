@@ -1,25 +1,9 @@
 require('./bootstrap');
 
-//--- client datalist actions
-const onClientInput = () => {
-  const clientInput = event.target;
-  const hiddenClientInput = document.getElementById('client_id');
+// ------------------------------------------------------------
+//        Generic: check if there were an option chosen
+// ------------------------------------------------------------
 
-  const option = getOptionChosen(clientInput);
-  if (!option) {
-    hiddenClientInput.value = '';
-  }
-  else {
-    hiddenClientInput.value = option.dataset.value;
-  }
-}
-
-const clientInput = document.getElementById('client_name');
-if (clientInput) {
-  clientInput.addEventListener('input', onClientInput);
-}
-
-//--- item actions
 const getOptionChosen = input => {
   const options = input.list.options;
   for (let index = 0; index < options.length; index++) {
@@ -31,9 +15,12 @@ const getOptionChosen = input => {
   return null;
 };
 
+// ------------------------------------------------------------
+//                      Getting the Total
+// ------------------------------------------------------------
+
 const getTotal = () => {
   const bodyt = document.getElementById('body-table');
-  const rowCount = bodyt.rows.length;
   let total = 0;
 
   for (const row of bodyt.rows) {
@@ -52,44 +39,47 @@ const updateTotal = () => {
   if (totalCell) totalCell.innerText = getTotal();
 };
 
-const onDetailsInput = event => {
-  const row = event.target.parentNode.parentNode;
-  const descriptionCell = event.target.parentNode;
-  const priceCell = row.cells[2];
-  const subtotalCell = row.cells[3];
-  const datalistInput = descriptionCell.children[0];
-  const hiddenItemIdInput = descriptionCell.children[1];
-  const hiddenPriceIdInput = descriptionCell.children[2];
-  const option = getOptionChosen(datalistInput);
+updateTotal();
 
-  if (!option) {
-    priceCell.innerText = '';
-    subtotalCell.innerText = '';
-    hiddenItemIdInput.value = '';
-    hiddenPriceIdInput.value = '';
-  }
-  else {
-    const quantityInput = row.cells[0].children[0];
-    const price = option.dataset.price;
+// ------------------------------------------------------------
+//                         Delete Row
+// ------------------------------------------------------------
 
-    priceCell.innerText = parseFloat(price).toLocaleString(undefined, {minimumFractionDigits: 2});
-    if (quantityInput.value) {
-      subtotalCell.innerText = (parseInt(quantityInput.value) * parseFloat(price)).toLocaleString(undefined, {minimumFractionDigits: 2});
-      hiddenItemIdInput.value = option.dataset.itemId;
-      hiddenPriceIdInput.value = option.dataset.priceId;
+const rearrangeNameIndex = index => {
+  const bodyt = document.getElementById('body-table');
+  const length = bodyt.rows.length;    
+  if (index < length) {
+    for (let rowCount = index; rowCount < length; rowCount++) {
+      const row = bodyt.rows[rowCount];
+      const quantityInput = row.cells[0].children[0];
+      const hiddenDescription = row.cells[1].children[0];
+      const priceInput = row.cells[2].children[0];
+
+      quantityInput.setAttribute('name', `items_order[${rowCount}][quantity]`);
+      hiddenDescription.setAttribute('name', `items_order[${rowCount}][description]`);
+      priceInput.setAttribute('name', `items_order[${rowCount}][price]`);
     }
   }
+};
 
+const deleteRow = button => {
+  const index = button.parentNode.parentNode.rowIndex;
+  document.getElementById('body-table').deleteRow(index - 1);
+  rearrangeNameIndex(index - 1);
   updateTotal();
 };
 
+// ------------------------------------------------------------
+//                        On Input Actions
+// ------------------------------------------------------------
+
 const onQuantityInput = event => {
   const row = event.target.parentNode.parentNode;
-  const txtPrice = row.cells[2].innerText;
-  const quantityInput = event.target;
+  const priceValue = row.cells[2].children[0].value.replace(/,/g, '');
+  const quantityValue = event.target.value;
 
-  if (txtPrice && quantityInput.value) {
-    row.cells[3].innerText = (parseInt(quantityInput.value) * parseFloat(txtPrice)).toLocaleString(undefined, {minimumFractionDigits: 2});
+  if (priceValue && quantityValue) {
+    row.cells[3].innerText = (parseInt(quantityValue) * parseFloat(priceValue)).toLocaleString(undefined, {minimumFractionDigits: 2});
   }
   else {
     row.cells[3].innerText = '';
@@ -98,34 +88,74 @@ const onQuantityInput = event => {
   updateTotal();
 };
 
-const rearrangeNameIndex = index => {
-  const bodyt = document.getElementById('body-table');
-  const length = bodyt.rows.length;    
-  if (index <= length) {
-    for (let rowCount = index - 1; rowCount < length; rowCount++) {
-      const row = bodyt.rows[rowCount];
-      const quantityInput = row.cells[0].children[0];
-      const hiddenItemIdInput = row.cells[1].children[1];
-      const hiddenPriceIdInput = row.cells[1].children[2];
+const onDetailsInput = event => {
+  const row = event.target.parentNode.parentNode;
+  const descriptionCell = event.target.parentNode;
+  const priceInput = row.cells[2].children[0];
+  const subtotalCell = row.cells[3];
+  const datalistInput = descriptionCell.children[0];
 
-      quantityInput.setAttribute('name', `items_order[${rowCount}][quantity]`);
-      hiddenItemIdInput.setAttribute('name', `items_order[${rowCount}][item_id]`);
-      hiddenPriceIdInput.setAttribute('name', `items_order[${rowCount}][price_id]`);
+  const option = getOptionChosen(datalistInput);
+  if (option) {
+    const quantityInput = row.cells[0].children[0];
+    const price = option.dataset.price;
+
+    priceInput.value = parseFloat(price).toLocaleString(undefined, {minimumFractionDigits: 2});
+    if (quantityInput.value) {
+      subtotalCell.innerText = (parseInt(quantityInput.value) * parseFloat(price)).toLocaleString(undefined, {minimumFractionDigits: 2});
     }
   }
-};
 
-const deleteRow = button => {
-  const index = button.parentNode.parentNode.rowIndex;
-  document.getElementById('items-table').deleteRow(index);
-  rearrangeNameIndex(index);
   updateTotal();
 };
+
+const onPriceInput = event => {
+  const row = event.target.parentNode.parentNode;
+  const quantityValue = row.cells[0].children[0].value;
+  const priceValue = event.target.value.replace(/,/g, '');
+
+  if (priceValue && quantityValue) {
+    row.cells[3].innerText = (parseInt(quantityValue) * parseFloat(priceValue)).toLocaleString(undefined, {minimumFractionDigits: 2});
+  }
+  else {
+    row.cells[3].innerText = '';
+  }
+
+  updateTotal();
+};
+
+// ------------------------------------------------------------
+//                 Setting Events On Inputs
+// ------------------------------------------------------------
+
+const quantityInputs = document.getElementsByClassName('quantity-input');
+Array.prototype.forEach.call(quantityInputs, item => {
+  item.addEventListener('input', onQuantityInput);
+});
+
+const descriptionInputs = document.getElementsByClassName('description-input');
+Array.prototype.forEach.call(descriptionInputs, item => {
+  item.addEventListener('input', onDetailsInput);
+});
+
+const priceInputs = document.getElementsByClassName('price-input');
+Array.prototype.forEach.call(priceInputs, item => {
+  item.addEventListener('input', onPriceInput);
+});
+
+const delButtons = document.getElementsByClassName('del-button');
+Array.prototype.forEach.call(delButtons, item => {
+  item.addEventListener('click', () => deleteRow(item));
+});
+
+// ------------------------------------------------------------
+//                         Add New Row
+// ------------------------------------------------------------
 
 const createQuantityInput = rowCount => {
     const quantityInput = document.createElement('input');
     quantityInput.type = 'number';
-    quantityInput.className = 'form-control';
+    quantityInput.className = 'form-control quantity-input';
     quantityInput.setAttribute('name', `items_order[${rowCount}][quantity]`);
     quantityInput.setAttribute('min', '1');
     quantityInput.setAttribute('max', '9999');
@@ -135,37 +165,35 @@ const createQuantityInput = rowCount => {
     return quantityInput;
 };
 
-const createDatalistInput = () => {
+const createDatalistInput = rowCount => {
   const datalistInput = document.createElement('input');
   datalistInput.type = 'text';
-  datalistInput.className = 'form-control';
+  datalistInput.className = 'form-control description-input';
   datalistInput.setAttribute('list', 'itemList');
+  datalistInput.setAttribute('name', `items_order[${rowCount}][description]`);
   datalistInput.placeholder = 'Nombre del artículo o servicio...';
   datalistInput.addEventListener('input', onDetailsInput);
   datalistInput.required = true;
   return datalistInput;
 };
 
-const createItemIdHiddenInput = rowCount => {
-  const hiddenItemIdInput = document.createElement('input');
-  hiddenItemIdInput.type = 'hidden';
-  hiddenItemIdInput.setAttribute('name', `items_order[${rowCount}][item_id]`);
-  return hiddenItemIdInput;
+const createPriceInput = rowCount => {
+  const priceInput = document.createElement('input');
+  priceInput.type = 'text';
+  priceInput.className = 'form-control text-end price-input';
+  priceInput.setAttribute('name', `items_order[${rowCount}][price]`);
+  priceInput.setAttribute('pattern', '[0-9]+(\.[0-9]{1,2})?');
+  priceInput.addEventListener('input', onPriceInput);
+  priceInput.required = true;
+  return priceInput;
 };
-
-const createPriceIdHiddenInput = rowCount => {
-  const hiddenPriceIdInput = document.createElement('input');
-  hiddenPriceIdInput.type = 'hidden';
-  hiddenPriceIdInput.setAttribute('name', `items_order[${rowCount}][price_id]`);
-  return hiddenPriceIdInput;
-};  
 
 const createDeleteButton = () => {
   const delButton = document.createElement('button');
   delButton.type = 'button';
-  delButton.className = 'btn btn-danger btn-sm';
+  delButton.className = 'btn btn-danger btn-sm del-button'
   delButton.addEventListener('click', () => deleteRow(delButton));
-  delButton.innerHTML  = '<i class="far fa-trash-alt"></i><span class="d-none d-md-inline"> Borrar</span>';
+  delButton.innerHTML  = '<i class="fas fa-trash-alt"></i><span class="d-none d-md-inline"> Borrar</span>';
   return delButton;
 };
 
@@ -179,12 +207,10 @@ const addRow = () => {
     quantityCell.appendChild(createQuantityInput(rowCount));
 
     const descriptionCell = newRow.insertCell(1);
-    descriptionCell.appendChild(createDatalistInput());
-    descriptionCell.appendChild(createItemIdHiddenInput(rowCount));
-    descriptionCell.appendChild(createPriceIdHiddenInput(rowCount));
+    descriptionCell.appendChild(createDatalistInput(rowCount));
 
     const priceCell = newRow.insertCell(2);
-    priceCell.className = 'align-middle text-end';
+    priceCell.appendChild(createPriceInput(rowCount));
 
     const subtotalCell = newRow.insertCell(3);
     subtotalCell.className = 'align-middle text-end';
@@ -200,33 +226,36 @@ if (button) {
   button.addEventListener('click', addRow);
 }
 
-// input validations of items
-const isTheClientInvalid = () => {
-  const hiddenClientInput = document.getElementById('client_id');
-  const clientInput = document.getElementById('client_name');
+// ------------------------------------------------------------
+//                  Validations On Submit Form
+// ------------------------------------------------------------
 
-  if (hiddenClientInput.value)
-  {
-    clientInput.setCustomValidity('');
-    return false;
-  }
+const isthereAnEmptyInput = () => {
+  const bodyTable = document.getElementById('body-table');
 
-  clientInput.setCustomValidity('Debe intresar un nombre de cliente valido');
-  clientInput.reportValidity();
-  return true;
-}
-
-const thereIsAnyEmptyItem = () => {
-  const bodyt = document.getElementById('body-table');
-
-  for (const row of bodyt.rows) {
-    const subtotalCell = row.cells[3];
+  for (const row of bodyTable.rows) {
+    const quantityInput = row.cells[0].children[0];
     const descriptionInput = row.cells[1].children[0];
+    const priceInput = row.cells[2].children[0];
+
+    quantityInput.setCustomValidity('');
+    if (quantityInput.value.trim() == '') {
+      quantityInput.setCustomValidity('La cantidad de artículos no puede estar vacía');
+      quantityInput.reportValidity();
+      return true;
+    }
 
     descriptionInput.setCustomValidity('');
-    if (subtotalCell.innerText == '') {
-      descriptionInput.setCustomValidity('Debe ingresar un artículo o servicio existente');
+    if (descriptionInput.value.trim() == '') {
+      descriptionInput.setCustomValidity('Artículo o servicio no puede ser vacío');
       descriptionInput.reportValidity();
+      return true;
+    }
+
+    priceInput.setCustomValidity('');
+    if (priceInput.value.trim() == '') {
+      priceInput.setCustomValidity('Precio no puede ser vacío');
+      priceInput.reportValidity();
       return true;
     }
   }
@@ -235,8 +264,8 @@ const thereIsAnyEmptyItem = () => {
 };
 
 const submitOrderForm = () => {
-  if (thereIsAnyEmptyItem() || isTheClientInvalid()) {
-    return false;
+  if (isthereAnEmptyInput()) {
+      return false;
   }
 
   return true;
@@ -247,41 +276,9 @@ if (submitButton) {
   submitButton.addEventListener('click', submitOrderForm);
 }
 
-// add events to inputs and buttons
-const quantityInputs = document.getElementsByClassName('quantity-input');
-Array.prototype.forEach.call(quantityInputs, item => {
-  item.addEventListener('input', onQuantityInput);
-});
-
-const descriptionInputs = document.getElementsByClassName('description-input');
-Array.prototype.forEach.call(descriptionInputs, item => {
-  item.addEventListener('input', onDetailsInput);
-});
-
-const delButtons = document.getElementsByClassName('del-button');
-Array.prototype.forEach.call(delButtons, item => {
-  item.addEventListener('click', () => deleteRow(item));
-});
-
-updateTotal();
-
-// nav-links
-const setActive = (link) => {
-  link.classList.add('active');
-}
-
-const navLinks = document.getElementsByClassName('menu-item');
-Array.prototype.forEach.call(navLinks, link => {
-  link.addEventListener('click', () => setActive(link));
-});
-
-
-
-
-
-
-
-
+// ------------------------------------------------------------
+//                    Setting Delete Actions
+// ------------------------------------------------------------
 
 // setting the delete car action
 setDeleteCarAction = () => {
@@ -310,7 +307,6 @@ setDeleteItemAction = () => {
   Array.prototype.forEach.call(delitem_buttons, btn => btn.addEventListener('click', (event) => {
     form.action = form.dataset.root + '/items/' +  event.currentTarget.dataset.item;
     const row = event.currentTarget.parentNode.parentNode;
-    console.log(row);
     document.getElementById('item-info-description').innerText = row.cells[1].innerHTML;
   }));
 }
