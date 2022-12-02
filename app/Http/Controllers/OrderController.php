@@ -20,34 +20,22 @@ class OrderController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        $orders = Order::with('client')
-                    ->orderBy('id', 'DESC')
-                    ->paginate(10);
-
-        return view('orders.index', compact('orders'));
-    }
-
-    /**
      * Show the form for creating a new resource.
      *
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        $clients = Client::all();
+        $code = $request->get('code');
+        $client = Client::find($code);
 
         $last_order = Order::latest()->first();
         $order_number = $last_order ? $last_order->id + 1 : 1;
 
-        $items_list = Item::with('latestPrice')->get();
+        $items_list = Item::orderBy('description')->get();
 
-        return view('orders.create', compact('clients', 'order_number', 'items_list'));
+        return view('orders.create', compact('client', 'order_number', 'items_list'));
     }
 
     /**
@@ -58,43 +46,55 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
+        $code = $request->get('code');
         $order_data = $request->validate([
-            'client_id' => 'required',
-            'car_description' => 'required'
+            'car_id' => 'required',
+            'date' => ['required', 'date']
         ]);
 
+        $order_data['client_id'] = $code;
         $order = Order::create($order_data);
 
-        $items_order = $request->input('items_order');
-        $order->items()->sync($items_order);
+        $order_items = $request->input('order_items');
+        foreach ($order_items as $item_data) {
+            // $item_data['order_id'] = $order->id;
+            // OrderItem::create($item_data);
 
-        return redirect('/orders');
+            $order->items()->create($item_data);
+        }
+
+        return redirect('/clients/' . $code);
     }
 
     /**
      * Display the specified resource.
      *
+     * @param  \Illuminate\Http\Request  $request
      * @param  \App\Models\Order  $order
      * @return \Illuminate\Http\Response
      */
-    public function show(Order $order)
+    public function show(Request $request, Order $order)
     {
-        return view('orders.show', compact('order'));
+        $code = $request->get('code');
+
+        return view('orders.show', compact('order', 'code'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
+     * @param  \Illuminate\Http\Request  $request
      * @param  \App\Models\Order  $order
      * @return \Illuminate\Http\Response
      */
-    public function edit(Order $order)
+    public function edit(Request $request, Order $order)
     {
-        $clients = Client::all();
+        $code = $request->get('code');
+        $client = Client::find($code);
 
-        $items_list = Item::with('latestPrice')->get();
+        $items_list = Item::orderBy('description')->get();
 
-        return view('orders.edit', compact('order', 'clients', 'items_list'));
+        return view('orders.edit', compact('order', 'client', 'items_list'));
     }
 
     /**
@@ -106,17 +106,84 @@ class OrderController extends Controller
      */
     public function update(Request $request, Order $order)
     {
+        // update order
+        $code = $request->get('code');
         $order_data = $request->validate([
-            'client_id' => 'required',
-            'car_description' => 'required'
+            'car_id' => 'required',
+            'date' => ['required', 'date']
         ]);
 
         $order->fill($order_data);
         $order->save();
 
-        $items_order = $request->input('items_order');
-        $order->items()->sync($items_order);
+        // update items
+        $order_items = $request->input('order_items');
+        $items = $order->items;
+        $this->UpdateItems($items, $order_items, $order);
 
-        return redirect('/orders');
+        return redirect('/clients/' . $code);        
+    }
+
+    private function UpdateItems($items, $order_items, $order)
+    {
+        $new_size = sizeof($order_items);
+        $old_size = $items->count();
+
+        $difference = $new_size - $old_size;
+        if ($difference)
+        {
+            if ($difference < 0) {
+                $this->UpdateAndDelete($items, $order_items, $new_size);
+            }
+            else
+            {
+                $this->UpdateAndCreate($items, $order_items, $old_size, $order);
+            }
+        }
+        else
+        {
+            $this->UpdateSame($items, $order_items);
+        }
+    }
+
+    private function UpdateSame($items, $order_items)
+    {
+        foreach ($items as $key => $item)
+        {
+            $item->fill($order_items[$key]);
+            $item->save();
+        }
+    }
+
+    private function UpdateAndDelete($items, $order_items, $new_size)
+    {
+        foreach ($items as $key => $item)
+        {
+            if ($key < $new_size)
+            {
+                $item->fill($order_items[$key]);
+                $item->save();
+            }
+            else
+            {
+                $item->delete();
+            }
+        }
+    }
+    
+    private function UpdateAndCreate($items, $order_items, $old_size, $order)
+    {
+        foreach ($order_items as $key => $item_data)
+        {
+            if ($key < $old_size)
+            {
+                $items[$key]->fill($item_data);
+                $items[$key]->save();
+            }
+            else
+            {
+                $order->items()->create($item_data);
+            }
+        }
     }
 }

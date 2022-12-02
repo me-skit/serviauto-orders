@@ -64,7 +64,7 @@ class ClientController extends Controller
     {
         $tab = $request->get('tab');
 
-        $order_list = $client->orders()->paginate(30);
+        $order_list = $client->orders()->with('car')->paginate(30);
         $car_list = $client->cars()->paginate(30);
 
         return view('clients.show', compact('client', 'tab', 'order_list', 'car_list'));
