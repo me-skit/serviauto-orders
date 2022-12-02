@@ -10,38 +10,29 @@ class Order extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['client_id', 'car_description', 'price_id'];
+    protected $fillable = ['client_id', 'car_id', 'date', 'finished'];
 
     public function client()
     {
         return $this->belongsTo(Client::class);
     }
 
+    public function car()
+    {
+        return $this->belongsTo(Car::class);
+    }
+
     public function items()
     {
-        return $this->belongsToMany(Item::class)->withPivot(['quantity', 'price_id'])->using(ItemOrder::class);
-        
+        return $this->hasMany(OrderItem::class);
     }
 
     public function getTotalAttribute()
     {
-        $total = DB::select(DB::raw("SELECT SUM(item_order.quantity * prices.sell_price) as cents
-                                           FROM item_order
-                                           JOIN prices ON item_order.price_id = prices.id
-                                           WHERE item_order.order_id = ?"), [$this->id]);
+        $total = DB::select(DB::raw("SELECT SUM(order_items.quantity * order_items.price) as cents
+                                           FROM order_items
+                                           WHERE order_items.order_id = ?"), [$this->id]);
 
         return "Q " .  number_format($total[0]->cents / 100, 2, '.', ',');
-    }
-
-    public function getItemsOrderAttribute()
-    {
-        $prices_list = DB::select(DB::raw("SELECT prices_list.*, items.description
-                                           FROM (SELECT item_order.item_id, item_order.price_id, item_order.quantity, (prices.sell_price / 100) as sell_price
-                                                 FROM item_order
-                                                 JOIN prices ON item_order.price_id = prices.id
-                                                 WHERE item_order.order_id = ?) AS prices_list
-                                           JOIN items ON prices_list.item_id = items.id"), [$this->id]);
-
-        return $prices_list;
     }
 }

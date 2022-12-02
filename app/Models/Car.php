@@ -20,4 +20,9 @@ class Car extends Model
     {
         return $this->hasMany(Order::class);
     }
+
+    public function getDescriptionAttribute()
+    {
+        return $this->brand . ' ' . $this->line . ' ' . $this->color . ', año '. $this->year . ', ' . $this->plate;
+    }
 }
