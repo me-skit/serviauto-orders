@@ -32,7 +32,7 @@ Route::resource('clients', ClientController::class)->except([
 ]);
 
 Route::resource('orders', OrderController::class)->except([
-    'destroy'
+    'index'
 ]);
 
 Route::resource('cars', CarController::class)->except([

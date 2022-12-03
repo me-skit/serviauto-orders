@@ -1,5 +1,14 @@
 require('./bootstrap');
 
+//--- setting the order's date
+
+const dateInput = document.getElementById('new-date');
+if (dateInput) {
+  const currentDate = new Date();
+  currentDate.setHours(currentDate.getHours() - 6);
+  dateInput.valueAsDate  = currentDate;
+}
+
 // ------------------------------------------------------------
 //        Generic: check if there were an option chosen
 // ------------------------------------------------------------
@@ -55,9 +64,9 @@ const rearrangeNameIndex = index => {
       const hiddenDescription = row.cells[1].children[0];
       const priceInput = row.cells[2].children[0];
 
-      quantityInput.setAttribute('name', `items_order[${rowCount}][quantity]`);
-      hiddenDescription.setAttribute('name', `items_order[${rowCount}][description]`);
-      priceInput.setAttribute('name', `items_order[${rowCount}][price]`);
+      quantityInput.setAttribute('name', `order_items[${rowCount}][quantity]`);
+      hiddenDescription.setAttribute('name', `order_items[${rowCount}][description]`);
+      priceInput.setAttribute('name', `order_items[${rowCount}][price]`);
     }
   }
 };
@@ -156,7 +165,7 @@ const createQuantityInput = rowCount => {
     const quantityInput = document.createElement('input');
     quantityInput.type = 'number';
     quantityInput.className = 'form-control quantity-input';
-    quantityInput.setAttribute('name', `items_order[${rowCount}][quantity]`);
+    quantityInput.setAttribute('name', `order_items[${rowCount}][quantity]`);
     quantityInput.setAttribute('min', '1');
     quantityInput.setAttribute('max', '9999');
     quantityInput.addEventListener('input', onQuantityInput);
@@ -170,7 +179,7 @@ const createDatalistInput = rowCount => {
   datalistInput.type = 'text';
   datalistInput.className = 'form-control description-input';
   datalistInput.setAttribute('list', 'itemList');
-  datalistInput.setAttribute('name', `items_order[${rowCount}][description]`);
+  datalistInput.setAttribute('name', `order_items[${rowCount}][description]`);
   datalistInput.placeholder = 'Nombre del artículo o servicio...';
   datalistInput.addEventListener('input', onDetailsInput);
   datalistInput.required = true;
@@ -181,7 +190,7 @@ const createPriceInput = rowCount => {
   const priceInput = document.createElement('input');
   priceInput.type = 'text';
   priceInput.className = 'form-control text-end price-input';
-  priceInput.setAttribute('name', `items_order[${rowCount}][price]`);
+  priceInput.setAttribute('name', `order_items[${rowCount}][price]`);
   priceInput.setAttribute('pattern', '[0-9]+(\.[0-9]{1,2})?');
   priceInput.addEventListener('input', onPriceInput);
   priceInput.required = true;
