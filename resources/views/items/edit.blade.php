@@ -34,24 +34,6 @@
               </div>
 
               <div class="form-group row mb-3">
-                <label for="cost" class="col-md-3 col-form-label text-md-end">{{ __('Costo') }}</label>
-                <div class="col-md-7">
-                  <input type="text"
-                    name="cost"
-                    id="cost"
-                    class="form-control @error('cost') is-invalid @enderror"
-                    value="{{ old('cost') ?? $item->cost }}"
-                    placeholder="Costo">
-
-                  @error('cost')
-                    <span class="invalid-feedback" role="alert">
-                      <strong>{{ $message }}</strong>
-                    </span>
-                  @enderror
-                </div>
-              </div>
-
-              <div class="form-group row mb-3">
                 <label for="price" class="col-md-3 col-form-label text-md-end">{{ __('Precio') }}<span class="text-danger">*</span></label>
                 <div class="col-md-7">
                   <input type="text"
@@ -63,24 +45,6 @@
                     required>
 
                   @error('price')
-                    <span class="invalid-feedback" role="alert">
-                      <strong>{{ $message }}</strong>
-                    </span>
-                  @enderror
-                </div>
-              </div>
-
-              <div class="form-group row mb-3">
-                <label for="stock" class="col-md-3 col-form-label text-md-end">{{ __('Existencias') }}</label>
-                <div class="col-md-7">
-                  <input type="text"
-                    name="stock"
-                    id="stock"
-                    class="form-control @error('stock') is-invalid @enderror"
-                    value="{{ old('stock') ?? $item->stock }}"
-                    placeholder="Número de articulos existentes">
-
-                  @error('stock')
                     <span class="invalid-feedback" role="alert">
                       <strong>{{ $message }}</strong>
                     </span>
