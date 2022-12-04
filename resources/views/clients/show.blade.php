@@ -9,23 +9,25 @@
             <div class="p-4 bg-light rounded">
               <h1 class="display-6 mb-0">{{ $client->name }}</h1>
               <hr class="my-0">
-              <p class="lead my-0">
-                {{ $client->phone_number }}
-              </p>
+              <p class="lead my-0"><i class="fas fa-phone-rotary"></i> {{ $client->phone_number }}</p>
             </div>
           </div>
 
           {{-- tabs --}}
           <ul class="nav nav-tabs" id="myTab" role="tablist">
             <li class="nav-item" role="presentation">
-              <button class="nav-link{{ $tab ? '': ' active' }}" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">Ordenes</button>
+              <button class="nav-link{{ $tab ? '': ' active' }}" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true"><i class="fas fa-clipboard-list"></i> Ordenes</button>
             </li>
             <li class="nav-item" role="presentation">
-              <button class="nav-link{{ ($tab === 'cars') ? ' active': '' }}" id="cars-tab" data-bs-toggle="tab" data-bs-target="#cars-tab-pane" type="button" role="tab" aria-controls="cars-tab-pane" aria-selected="false">Vehiculos</button>
+              <button class="nav-link{{ ($tab === 'cars') ? ' active': '' }}" id="cars-tab" data-bs-toggle="tab" data-bs-target="#cars-tab-pane" type="button" role="tab" aria-controls="cars-tab-pane" aria-selected="false"><i class="fas fa-cars"></i> Vehiculos</button>
             </li>
           </ul>
           <div class="tab-content" id="myTabContent">
             <div class="tab-pane fade p-2{{ $tab ? '': ' show active' }}" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
+              <div class="text-end">
+                <a href="{{ route('orders.create') . '?code=' . $client->id }}" class="btn btn-success"><i class="fas fa-plus-circle"></i><span class="d-none d-lg-inline"> Agregar</span></a>
+              </div>
+
               @include('orders.list')
             </div>
             <div class="tab-pane fade p-2{{ ($tab === 'cars') ? ' show active': '' }}" id="cars-tab-pane" role="tabpanel" aria-labelledby="cars-tab" tabindex="0">

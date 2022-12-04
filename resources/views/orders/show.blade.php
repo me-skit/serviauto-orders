@@ -33,13 +33,13 @@
             
               <div class="col-lg-6">
                 <div class="row mb-md-3">
-                    <label for="created_at" class="col-md-3 col-form-label text-md-end">{{ __('Fecha') }}</label>
+                    <label for="date" class="col-md-3 col-form-label text-md-end">{{ __('Fecha') }}</label>
                     <div class="col-md-7 col-lg-4">
-                      <input type="text"
-                        name="created_at"
-                        id="created_at"
+                      <input type="date"
+                        name="date"
+                        id="date"
                         class="form-control text-end"
-                        value="{{ date_format($order->created_at, 'd/m/Y') }}"
+                        value="{{ $order->date }}"
                         readonly
                       >
                     </div>
@@ -56,7 +56,7 @@
                         name="car_description"
                         id="car_description"
                         class="form-control @error('car_description') is-invalid @enderror"
-                        value="{{ $order->car_description }}"
+                        value="{{ $order->car->description }}"
                         readonly
                         >
                     </div>
@@ -96,19 +96,19 @@
                   <thead>
                     <tr>
                       <td>Cant.</td>
-                      <td>Descripcion</td>
+                      <td>Artículo o Servicio</td>
                       <td class="text-center">P/U (Q)</td>
                       <td class="text-center">Subtotal (Q)</td>
                       <td></td>
                     </tr>
                   </thead>
                   <tbody id="body-table">
-                    @foreach ($order->items_order as $item)
+                    @foreach ($order->items as $item)
                       <tr>
                         <td class="text-center align-middle">{{ $item->quantity }}</td>
                         <td>{{ $item->description }}</td>
-                        <td class="text-end align-middle">{{ number_format($item->sell_price, 2, '.', ',') }}</td>
-                        <td class="text-end align-middle">{{ number_format($item->quantity * $item->sell_price, 2, '.', ',') }}</td>
+                        <td class="text-end align-middle">{{ number_format($item->price, 2, '.', ',') }}</td>
+                        <td class="text-end align-middle">{{ number_format($item->quantity * $item->price, 2, '.', ',') }}</td>
                         <td></td>                       
                       </tr>
                     @endforeach
@@ -116,7 +116,7 @@
                   <tfoot>
                     <td></td>
                     <td class="text-center" colspan="2">TOTAL</td>
-                    <td class="text-end" id="total-cell">
+                    <td class="text-end text-truncate" id="total-cell">
                       {{ $order->total }}
                     </td>
                     <td></td>
@@ -131,7 +131,7 @@
 
     <div class="row justify-content-center">
       <div class="col-md-12 col-lg-11 text-end">
-        <a href="{{ route('orders.index') }}" class="btn btn-secondary me-1"><i class="far fa-arrow-circle-left"></i> {{  __('Regresar') }}</a>
+        <a href="{{ route('clients.show', $code) }}" class="btn btn-secondary me-1"><i class="far fa-arrow-circle-left"></i> {{  __('Regresar') }}</a>
       </div>
     </div>
   </div>

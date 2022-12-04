@@ -32,13 +32,10 @@
             <ul class="navbar-nav me-auto">
               @auth
                 <li class="nav-item menu-item">
-                  <a class="nav-link" href="{{ route('clients.index') }}"><i class="far fa-user-friends"></i> Clientes</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link menu-item" href="{{ route('orders.index') }}"><i class="far fa-clipboard-list"></i> Ordenes</a>
+                  <a class="nav-link" href="{{ route('clients.index') }}"><i class="fas fa-user-friends"></i> Clientes</a>
                 </li>
                 <li class="nav-item menu-item">
-                  <a class="nav-link" href="{{ route('items.index') }}"><i class="far fa-tools"></i> Artículos & Servicios</a>
+                  <a class="nav-link" href="{{ route('items.index') }}"><i class="fas fa-tools"></i> Repuestos & Servicios</a>
                 </li>
               @endauth
             </ul>
