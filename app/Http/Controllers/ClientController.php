@@ -21,13 +21,35 @@ class ClientController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $clients = Client::paginate(10);
+        $clients = Client::orderBy('created_at', 'desc')->paginate(10);
+
+        if ($request->get('page'))
+        {
+            return view('clients.pagination', compact('clients'));
+        }
 
         return view('clients.index', compact('clients'));
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function search(Request $request)
+    {
+        $query = str_replace(" ", "%", $request->get('query'));
+        $clients = Client::where('name', 'like', '%' . $query . '%')
+                        ->orderBy('created_at', 'desc')
+                        ->paginate(10);
+
+        return view('clients.pagination', compact('clients'));
     }
 
     /**

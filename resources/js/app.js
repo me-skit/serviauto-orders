@@ -286,6 +286,53 @@ if (submitButton) {
 }
 
 // ------------------------------------------------------------
+//                       The Search Clients
+// ------------------------------------------------------------
+
+searchQuery = (query, page = 1) => {
+  const pagination = document.getElementById('pagination');
+  const title = document.getElementById('title');
+  query = query.trim();
+  const length = query.length;
+
+  const url = '/' + (length ? title.dataset.queryPath : title.dataset.defaultPath) + '?page=' + page + (length ? '&query=' + query : '');
+  fetch(url)
+  .then(response => {
+    if (response.ok) return  response.text();
+    
+    throw new Error('No se pudo obtener los datos');
+  })
+  .then(data => {
+    pagination.innerHTML = data;
+    paginate();
+  })
+  .catch(error => {
+    pagination.innerHTML = error;
+  });
+}
+
+const search = document.getElementById('search');
+if (search) {
+  search.addEventListener('keyup', () => searchQuery(search.value));
+}
+
+// pagination of the result of a search
+pagination = (event, item) => {
+  event.preventDefault();
+  let page = String(item);
+  page = page.split('page=')[1];
+  let query = search ? search.value : '';
+  searchQuery(query, page);
+}
+
+paginate = () => {
+  const paginations = document.getElementsByClassName('page-link');
+  Array.prototype.forEach.call(paginations, item => item.addEventListener('click', () => pagination(event, item)));
+}
+
+paginate();
+
+// ------------------------------------------------------------
 //                    Setting Delete Actions
 // ------------------------------------------------------------
 

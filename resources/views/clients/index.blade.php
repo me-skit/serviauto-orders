@@ -4,44 +4,33 @@
   <div class="container">
     <div class="row justify-content-center mb-3">
       <div class="col-md-12 col-lg-10 col-xl-8 d-flex justify-content-between align-items-baseline">
-        <h2><i class="fas fa-user-friends"></i> Clientes</h2>
+        <h2 id="title" data-default-path="clients" data-query-path="clients/search"><i class="fas fa-user-friends"></i> Clientes</h2>
         <div>
-          <a href="{{ route('clients.create') }}" class="btn btn-success"><i class="far fa-plus"></i><span class="d-none d-md-inline"> Nuevo</span></a>
+          <a href="{{ route('clients.create') }}" class="btn btn-success"><i class="fas fa-plus-circle"></i><span class="d-none d-md-inline"> Nuevo</span></a>
         </div>
       </div>
     </div>
 
-    <div class="row justify-content-center">
-      <div class="col-md-12 col-lg-10 col-xl-8">
-        {{ $clients->links("pagination::bootstrap-4") }}
+    <div class="row mb-3" id="search-client-div">
+      <div class="col-sm-8 col-md-6 col-lg-4 col-xl-3 offset-lg-1 offset-xl-2">
+        <div class="input-group">
+          <input type="text"
+            name="search"
+            id="search"
+            class="form-control"
+            value="{{ old('search') }}"
+            placeholder="Busqueda"
+            aria-label="Busqueda"
+            aria-describedby="search-client-button"
+            autofocus
+            >
+            <span class="input-group-text" id="search-client-button"><i class="fa fa-search"></i></span>
+        </div>
       </div>
     </div>
 
-    <div class="row justify-content-center">
-      <div class="col-md-12 col-lg-10 col-xl-8 table-responsive">
-        <table class="table table-hover table-sm">
-          <thead>
-              <tr>
-                  <th class="text-center">#</th>
-                  <th>Nombre</th>
-                  <th>Teléfono(s)</th>
-                  <th class="text-center">Acciones</th>
-              </tr>
-          </thead>
-          <tbody>
-            @foreach ($clients as $key => $client)
-              <tr>
-                <td class="align-middle text-center">{{ ($clients->currentPage() - 1) * 10 + $key + 1 }}</td>
-                <td class="align-middle">{{ $client->name }}</td>
-                <td class="align-middle">{{ $client->phone_number }}</td>
-                <td class="text-center">
-                  <a href="{{ route('clients.show', $client->id ) }}" class="btn btn-secondary btn-sm"><i class="fas fa-eye"></i><span class="d-none d-md-inline"> Detalles</span></a>
-                </td>
-              </tr>
-            @endforeach
-          </tbody>
-        </table>
-      </div>
+    <div id="pagination">
+      @include('clients.pagination')
     </div>
   </div>
 @endsection

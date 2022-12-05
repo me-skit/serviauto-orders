@@ -27,6 +27,7 @@ Auth::routes();
 
 // ------------- Custom routes
 
+Route::get('clients/search', [ClientController::class, 'search'])->name('clients.search');
 Route::resource('clients', ClientController::class)->except([
     'destroy'
 ]);
