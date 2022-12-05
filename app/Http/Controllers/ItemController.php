@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Item;
+use Illuminate\Http\Request;
 use App\Http\Requests\ItemRequest;
 use Illuminate\Database\QueryException;
 
@@ -23,11 +24,32 @@ class ItemController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $items = Item::paginate(35);
+        $items = Item::orderBy('description')->paginate(10);
+
+        if ($request->get('page'))
+        {
+            return view('items.pagination', compact('items'));
+        }
 
         return view('items.index', compact('items'));
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function search(Request $request)
+    {
+        $query = str_replace(" ", "%", $request->get('query'));
+        $items = Item::where('description', 'like', '%' . $query . '%')
+                        ->orderBy('description')
+                        ->paginate(10);
+
+        return view('items.pagination', compact('items'));
     }
 
     /**

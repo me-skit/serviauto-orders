@@ -9,7 +9,7 @@
     <table class="table table-hover table-sm">
       <thead>
           <tr>
-              <th class="text-center">#</th>
+              <th class="text-center">No.</th>
               <th>Nombre</th>
               <th>Teléfono(s)</th>
               <th class="text-center">Acciones</th>
@@ -18,7 +18,7 @@
       <tbody>
         @foreach ($clients as $key => $client)
           <tr>
-            <td class="align-middle text-center">{{ ($clients->currentPage() - 1) * 10 + $key + 1 }}</td>
+            <td class="align-middle text-center">{{ ($clients->currentPage() - 1) * $clients->perPage() + $key + 1 }}</td>
             <td class="align-middle">{{ $client->name }}</td>
             <td class="align-middle">{{ $client->phone_number }}</td>
             <td class="text-center">

@@ -40,6 +40,7 @@ Route::resource('cars', CarController::class)->except([
     'index', 'show'
 ]);
 
+Route::get('items/search', [ItemController::class, 'search'])->name('items.search');
 Route::resource('items', ItemController::class)->except([
     'show'
 ]);
