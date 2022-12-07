@@ -11,6 +11,7 @@
                 <div class="d-flex">
                   <h1 class="display-6">{{ $client->name }}</h1>
                   <a href="{{ route('clients.edit', $client->id) }}" class="btn btn-outline-primary align-self-center mx-1"><i class="fas fa-pencil-alt"></i></a>
+                  <a href="#" class="btn btn-outline-danger align-self-center{{ $can_be_deleted ? '' : ' disabled' }}" role="button" aria-disabled="{{ $can_be_deleted }}" data-bs-toggle="modal" data-bs-target="#delClientModal"><i class="fas fa-trash-alt"></i></a>
                 </div>
                 <a href="{{ route('clients.index') }}" class="btn btn-secondary align-self-center"><i class="fas fa-arrow-circle-left"></i><span class="d-none d-lg-inline"> Listado</span></a>
               </div>
@@ -50,4 +51,5 @@
   </div>
 
   @include('cars.modal-delete')
+  @include('clients.modal-delete')
 @endsection

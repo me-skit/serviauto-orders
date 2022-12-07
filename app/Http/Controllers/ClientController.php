@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Client;
 use Illuminate\Http\Request;
 use App\Http\Requests\ClientRequest;
+use Illuminate\Database\QueryException;
 
 class ClientController extends Controller
 {
@@ -88,8 +89,9 @@ class ClientController extends Controller
 
         $order_list = $client->orders()->with('car')->paginate(30);
         $car_list = $client->cars()->paginate(30);
+        $can_be_deleted = (count($order_list) or count($car_list)) ? false : true;
 
-        return view('clients.show', compact('client', 'tab', 'order_list', 'car_list'));
+        return view('clients.show', compact('client', 'tab', 'order_list', 'car_list', 'can_be_deleted'));
     }
 
     /**
@@ -117,5 +119,27 @@ class ClientController extends Controller
         $client->save();
 
         return redirect('/clients');
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\Models\Client  $client
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(Client $client)
+    {
+        if ($client->orders()->count() or $client->cars()->count())
+        {
+            return redirect('/clients/' . $client->id)->with('error','Datos de cliente no pueden eliminarse, cliente asociado a alguna orden o vehículo.');
+        }
+
+        try {
+            $client->delete();
+        } catch (QueryException $e) {
+            return redirect('/clients/' . $client->id)->with('error','Datos de cliente no pudieron eliminarse, error desconocido.');
+        }
+
+        return redirect('/clients')->with('info','Datos de cliente eliminados.');
     }
 }
