@@ -7,7 +7,13 @@
         <div class="card mb-3">
           <div class="card-body">
             <div class="p-4 bg-light rounded">
-              <h1 class="display-6 mb-0">{{ $client->name }}</h1>
+              <div class="d-flex justify-content-between">
+                <div class="d-flex">
+                  <h1 class="display-6">{{ $client->name }}</h1>
+                  <a href="{{ route('clients.edit', $client->id) }}" class="btn btn-outline-primary align-self-center mx-1"><i class="fas fa-pencil-alt"></i></a>
+                </div>
+                <a href="{{ route('clients.index') }}" class="btn btn-secondary align-self-center"><i class="fas fa-arrow-circle-left"></i><span class="d-none d-lg-inline"> Listado</span></a>
+              </div>
               <hr class="my-0">
               <p class="lead my-0"><i class="fas fa-phone-rotary"></i> {{ $client->phone_number }}</p>
             </div>
