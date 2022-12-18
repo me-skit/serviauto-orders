@@ -30,6 +30,7 @@ Auth::routes();
 Route::get('clients/search', [ClientController::class, 'search'])->name('clients.search');
 Route::resource('clients', ClientController::class);
 
+Route::patch('orders/{order}/finish', [OrderController::class, 'finish'])->name('orders.finish');
 Route::resource('orders', OrderController::class)->except([
     'index'
 ]);

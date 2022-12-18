@@ -57,9 +57,6 @@ class OrderController extends Controller
 
         $order_items = $request->input('order_items');
         foreach ($order_items as $item_data) {
-            // $item_data['order_id'] = $order->id;
-            // OrderItem::create($item_data);
-
             $order->items()->create($item_data);
         }
 
@@ -121,7 +118,28 @@ class OrderController extends Controller
         $items = $order->items;
         $this->UpdateItems($items, $order_items, $order);
 
-        return redirect('/clients/' . $code);        
+        return redirect('/clients/' . $code);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\Order  $order
+     * @return \Illuminate\Http\Response
+     */
+    public function finish(Request $request, Order $order)
+    {
+        // update order
+        $code = $request->get('code');
+        $order_data = $request->validate([
+            'date_finished' => ['required', 'date']
+        ]);
+
+        $order->fill($order_data);
+        $order->save();
+
+        return redirect('/clients/' . $code);
     }
 
     private function UpdateItems($items, $order_items, $order)

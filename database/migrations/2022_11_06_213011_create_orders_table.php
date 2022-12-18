@@ -18,7 +18,7 @@ class CreateOrdersTable extends Migration
             $table->foreignId('client_id')->constrained()->restrictOnDelete();
             $table->foreignId('car_id')->constrained()->restrictOnDelete();
             $table->date('date');
-            $table->boolean('finished')->default(false);
+            $table->date('date_finished')->nullable();
             $table->unsignedBigInteger('created_by')->nullable();
             $table->unsignedBigInteger('updated_by')->nullable();
             $table->timestamps();

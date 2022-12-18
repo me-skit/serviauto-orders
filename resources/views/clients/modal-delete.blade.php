@@ -6,7 +6,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body text-center">
-        <p>Se eliminaran los datos del cliente.</p>
+        <p>Se eliminarán los datos del cliente.</p>
         <p>Presione "Eliminar" para confirmar eliminación.</p>
       </div>
       <div class="modal-footer">
