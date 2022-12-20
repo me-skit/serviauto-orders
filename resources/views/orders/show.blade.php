@@ -5,7 +5,10 @@
     <div class="row justify-content-center mb-md-2">
       <div class="col-md-12 col-lg-11 d-flex justify-content-between">
         <h2><i class="far fa-clipboard-list-check"></i> Orden de Trabajo</h2>
-        <a href="#" class="btn btn-warning align-self-center" data-bs-toggle="modal" data-bs-target="#finishOrderModal"><i class="fas fa-calendar-check"></i><span class="d-none d-md-inline"> Finalizar</span></a>  
+        <a href="#" class="btn btn-warning align-self-center{{ $order->items->count() ? '' : ' disabled' }}" role="button" aria-disabled="{{ $order->items->count() ? 'false' : 'true' }}" data-bs-toggle="modal" data-bs-target="#finishOrderModal">
+          <i class="fas fa-calendar-check"></i>
+          <span class="d-none d-md-inline"> Finalizar</span>
+        </a>
       </div>
     </div>
 

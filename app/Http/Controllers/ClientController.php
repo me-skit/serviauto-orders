@@ -27,7 +27,7 @@ class ClientController extends Controller
      */
     public function index(Request $request)
     {
-        $clients = Client::orderBy('created_at', 'desc')->paginate(10);
+        $clients = Client::orderBy('id', 'desc')->paginate(10);
 
         if ($request->get('page'))
         {
@@ -47,7 +47,7 @@ class ClientController extends Controller
     {
         $query = str_replace(" ", "%", $request->get('query'));
         $clients = Client::where('name', 'like', '%' . $query . '%')
-                        ->orderBy('created_at', 'desc')
+                        ->orderBy('id', 'desc')
                         ->paginate(10);
 
         return view('clients.pagination', compact('clients'));
@@ -140,6 +140,6 @@ class ClientController extends Controller
             return redirect('/clients/' . $client->id)->with('error','Datos de cliente no pudieron eliminarse, error desconocido.');
         }
 
-        return redirect('/clients')->with('info','Datos de cliente eliminados.');
+        return redirect('/clients')->with('info','Datos de cliente "' . $client->name . '" eliminados.');
     }
 }

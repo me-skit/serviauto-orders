@@ -6,6 +6,7 @@ use App\Models\Client;
 use App\Models\Item;
 use App\Models\Order;
 use Illuminate\Http\Request;
+use Illuminate\Database\QueryException;
 
 class OrderController extends Controller
 {
@@ -56,8 +57,10 @@ class OrderController extends Controller
         $order = Order::create($order_data);
 
         $order_items = $request->input('order_items');
-        foreach ($order_items as $item_data) {
-            $order->items()->create($item_data);
+        if ($order_items) {
+            foreach ($order_items as $item_data) {
+                $order->items()->create($item_data);
+            }
         }
 
         return redirect('/clients/' . $code);
@@ -142,9 +145,32 @@ class OrderController extends Controller
         return redirect('/clients/' . $code);
     }
 
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\Models\Order  $order
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(Request $request, Order $order)
+    {
+        $code = $request->get('code');
+        if ($order->items()->count())
+        {
+            return redirect('/orders/' . $order->id . '?code=' . $code)->with('error', 'Orden No. ' . $order->id . 'no pudo eliminarse, tiene items asociados');
+        }
+
+        try {
+            $order->delete();
+        } catch (QueryException $e) {
+            return redirect('/orders/' . $order->id . '?code=' . $code)->with('error','Orden No. ' . $order->id . 'no pudo eliminarse, error desconocido');
+        }
+
+        return redirect('/clients/' . $code)->with('info','Orden No. ' . $order->id . ' eliminada.');
+    }
+
     private function UpdateItems($items, $order_items, $order)
     {
-        $new_size = sizeof($order_items);
+        $new_size = $order_items ? sizeof($order_items) : 0;
         $old_size = $items->count();
 
         $difference = $new_size - $old_size;
