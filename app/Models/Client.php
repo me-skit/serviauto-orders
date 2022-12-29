@@ -13,7 +13,12 @@ class Client extends Model
 
     public function orders()
     {
-        return $this->hasMany(Order::class)->whereNull('date_finished');
+        return $this->hasMany(Order::class)->whereNull('finished');
+    }
+
+    public function historic()
+    {
+        return $this->hasMany(Order::class)->whereNotNull('finished');
     }
 
     public function cars()

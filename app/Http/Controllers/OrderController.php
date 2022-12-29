@@ -136,7 +136,7 @@ class OrderController extends Controller
         // update order
         $code = $request->get('code');
         $order_data = $request->validate([
-            'date_finished' => ['required', 'date']
+            'finished' => ['required', 'date']
         ]);
 
         $order->fill($order_data);

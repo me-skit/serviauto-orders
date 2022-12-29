@@ -12,13 +12,13 @@
         <div class="modal-body text-center">
 
         <div class="row">
-          <label for="date_finished" class="col-md-3 col-form-label text-md-end">{{ __('Fecha') }}<span class="text-danger">*</span></label>
+          <label for="finished" class="col-md-3 col-form-label text-md-end">{{ __('Fecha') }}<span class="text-danger">*</span></label>
           <div class="col-md-7">
             <input type="date"
-              name="date_finished"
+              name="finished"
               id="new-date"
               class="form-control text-end"
-              value="{{ old('date_finished') }}"
+              value="{{ old('finished') }}"
               required
             >
           </div>

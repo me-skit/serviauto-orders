@@ -5,10 +5,12 @@
     <div class="row justify-content-center mb-md-2">
       <div class="col-md-12 col-lg-11 d-flex justify-content-between">
         <h2><i class="far fa-clipboard-list-check"></i> Orden de Trabajo</h2>
-        <a href="#" class="btn btn-warning align-self-center{{ $order->items->count() ? '' : ' disabled' }}" role="button" aria-disabled="{{ $order->items->count() ? 'false' : 'true' }}" data-bs-toggle="modal" data-bs-target="#finishOrderModal">
-          <i class="fas fa-calendar-check"></i>
-          <span class="d-none d-md-inline"> Finalizar</span>
-        </a>
+        @if (!$order->finished)
+          <a href="#" class="btn btn-warning align-self-center{{ $order->items->count() ? '' : ' disabled' }}" role="button" aria-disabled="{{ $order->items->count() ? 'false' : 'true' }}" data-bs-toggle="modal" data-bs-target="#finishOrderModal">
+            <i class="fas fa-calendar-check"></i>
+            <span class="d-none d-md-inline"> Finalizar</span>
+          </a>            
+        @endif
       </div>
     </div>
 
@@ -135,7 +137,7 @@
 
     <div class="row justify-content-center">
       <div class="col-md-12 col-lg-11 text-end">
-        <a href="{{ route('clients.show', $code) }}" class="btn btn-secondary me-1"><i class="far fa-arrow-circle-left"></i> {{  __('Regresar') }}</a>
+        <a href="{{ route('clients.show', $code) . ($order->finished ? '?tab=historic' : '' ) }}" class="btn btn-secondary me-1"><i class="far fa-arrow-circle-left"></i> {{  __('Regresar') }}</a>
       </div>
     </div>
   </div>

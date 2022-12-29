@@ -87,11 +87,12 @@ class ClientController extends Controller
     {
         $tab = $request->get('tab');
 
-        $order_list = $client->orders()->with('car')->paginate(30);
+        $active_orders = $client->orders()->with('car')->paginate(30);
+        $past_orders = $client->historic()->with('car')->paginate(30);
         $car_list = $client->cars()->paginate(30);
-        $can_be_deleted = (count($order_list) or count($car_list)) ? false : true;
+        $can_be_deleted = (count($active_orders) or count($car_list)) ? false : true;
 
-        return view('clients.show', compact('client', 'tab', 'order_list', 'car_list', 'can_be_deleted'));
+        return view('clients.show', compact('client', 'tab', 'active_orders', 'past_orders', 'car_list', 'can_be_deleted'));
     }
 
     /**
