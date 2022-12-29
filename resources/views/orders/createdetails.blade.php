@@ -44,8 +44,9 @@
                     <input type="text"
                       name="order_items[0][price]"
                       class="form-control text-end price-input"
-                      pattern="[0-9]+(\.[0-9]{1,2})?"
-                      title="Debe ser un numero con dos decimales maximo"
+                      pattern="((\d{1,3}(,\d{3})*)|([0-9]+))(\.\d{1,2})?"
+                      title="Debe tener formato de moneda, ejemplo: 1,000,000.00"
+                      placeholder="Precio"
                       required
                     >
                   </td>

@@ -44,13 +44,14 @@
                     </td>
                     <td class="align-middle text-end col-sm-1 col-md-2">
                       <input type="text"
-                      name="order_items[{{ $key }}][price]"
-                      class="form-control text-end price-input"
-                      pattern="[0-9]+(\.[0-9]{1,2})?"
-                      value="{{ number_format($item->price, 2, '.', ',') }}"
-                      placeholder="Nombre del artículo o servicio..."
-                      required
-                    >
+                        name="order_items[{{ $key }}][price]"
+                        class="form-control text-end price-input"
+                        pattern="((\d{1,3}(,\d{3})*)|([0-9]+))(\.\d{1,2})?"
+                        value="{{ number_format($item->price, 2, '.', ',') }}"
+                        title="Debe tener formato de moneda, ejemplo: 1,000,000.00"
+                        placeholder="Precio"
+                        required
+                      >
                     </td>
                     <td class="align-middle text-end col-sm-1 col-md-2">{{ number_format($item->quantity * $item->price, 2, '.', ',') }}</td>
                     <td class="align-middle text-center">

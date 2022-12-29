@@ -13,16 +13,16 @@ class Client extends Model
 
     public function orders()
     {
-        return $this->hasMany(Order::class)->whereNull('finished');
+        return $this->hasMany(Order::class)->whereNull('finished')->orderBy('id', 'desc');
     }
 
     public function historic()
     {
-        return $this->hasMany(Order::class)->whereNotNull('finished');
+        return $this->hasMany(Order::class)->whereNotNull('finished')->orderBy('id', 'desc');
     }
 
     public function cars()
     {
-        return $this->hasMany(Car::class);
+        return $this->hasMany(Car::class)->orderBy('id', 'desc');
     }
 }
