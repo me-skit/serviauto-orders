@@ -38,7 +38,7 @@
                 <a href="{{ route('orders.create') . '?code=' . $client->id }}" class="btn btn-success"><i class="fas fa-plus-circle"></i><span class="d-none d-lg-inline"> Agregar</span></a>
               </div>
 
-              @include('orders.list', ['list' => $active_orders])
+              @include('orders.list', ['list' => $active_orders, 'sel_tab' => NULL])
             </div>
             <div class="tab-pane fade p-2{{ ($tab === 'cars') ? ' show active': '' }}" id="cars-tab-pane" role="tabpanel" aria-labelledby="cars-tab" tabindex="0">
               <div class="text-end">
@@ -49,7 +49,7 @@
             </div>
             <div class="tab-pane fade p-2{{ ($tab === 'historic') ? ' show active': '' }}" id="historic-tab-pane" role="tabpanel" aria-labelledby="historic-tab" tabindex="0">
 
-              @include('orders.list', ['list' => $past_orders])
+              @include('orders.list', ['list' => $past_orders, 'sel_tab' => 'historic'])
             </div>
           </div>
         </div>

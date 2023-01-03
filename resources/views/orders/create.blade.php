@@ -21,7 +21,7 @@
               <div class="row">
                 <div class="col-lg-7 col-xl-6">
                   <div class="row mb-md-3">
-                    <label for="client" class="col-md-3 col-form-label text-md-end">{{ __('Cliente') }}</label>
+                    <label for="client" class="col-md-3 col-form-label text-md-end">{{ __('Cliente') }}<span class="text-danger">*</span></label>
                     <div class="col-md-7 col-lg-9">
                       <input type="text"
                         name="client"
@@ -36,7 +36,7 @@
 
                 <div class="col-lg-5 col-xl-6">
                   <div class="row mb-md-3">
-                      <label for="date" class="col-md-3 col-form-label text-md-end">{{ __('Fecha') }}</label>
+                      <label for="date" class="col-md-3 col-form-label text-md-end">{{ __('Fecha') }}<span class="text-danger">*</span></label>
                       <div class="col-md-7 col-lg-6 col-xl-4">
                         <input type="date"
                           name="date"
@@ -76,6 +76,30 @@
                           readonly
                         >
                       </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-lg-7 col-xl-6">
+                  <div class="row mb-md-3">
+                    <label for="next_service" class="col-md-3 col-form-label text-md-end">Sig. Servicio</label>
+                    <div class="col-md-7 col-lg-9">
+                      <input type="text"
+                        name="next_service"
+                        id="next_service"
+                        class="form-control"
+                        value="{{ old('next_service') }}"
+                        pattern="((\d{1,3}(,\d{3})*)|([0-9]+))"
+                        title="Deben números como 1,000 o 1,000,000"
+                        placeholder="Siguente servicio"
+                      >
+                    </div>
+                  </div>
+                </div>
+              
+                <div class="col-lg-5 col-xl-6">
+                  <div class="row mb-3">
                   </div>
                 </div>
               </div>

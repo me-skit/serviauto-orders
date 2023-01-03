@@ -48,7 +48,7 @@
                         class="form-control text-end price-input"
                         pattern="((\d{1,3}(,\d{3})*)|([0-9]+))(\.\d{1,2})?"
                         value="{{ number_format($item->price, 2, '.', ',') }}"
-                        title="Debe tener formato de moneda, ejemplo: 1,000,000.00"
+                        title="Debe tener formato de moneda como 1,000.00 o  1,000,000.00"
                         placeholder="Precio"
                         required
                       >

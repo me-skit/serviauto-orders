@@ -9,11 +9,16 @@ class Car extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['client_id', 'brand', 'line', 'year', 'color', 'plate', 'created_by', 'updated_by'];
+    protected $fillable = ['client_id', 'brand', 'line', 'year', 'color', 'plate', 'next_service', 'service_id', 'created_by', 'updated_by'];
 
     public function client()
     {
         return $this->belongsTo(Client::class);
+    }
+
+    public function service()
+    {
+        return $this->belongsTo(Order::class, 'service_id');
     }
 
     public function orders()
@@ -24,5 +29,10 @@ class Car extends Model
     public function getDescriptionAttribute()
     {
         return $this->brand . ' ' . $this->line . ' ' . $this->color . ', año '. $this->year . ', ' . $this->plate;
+    }
+
+    public function setNextServiceAttribute($value)
+    {
+        $this->attributes['next_service'] = $value ? str_replace(',', '', $value) : null;
     }
 }

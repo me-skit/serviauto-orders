@@ -17,7 +17,7 @@
           <td class="align-middle text-center">{{ date_format(date_create($order->date), 'd/m/Y') }}</td>
           <td class="align-middle text-end text-truncate">{{ $order->total }}</td>
           <td class="align-middle text-center text-truncate">
-            <a href="{{ route('orders.show', $order->id) . '?code=' . $client->id }}" class="btn btn-secondary btn-sm"><i class="fas fa-eye"></i><span class="d-none d-lg-inline"> Detalles</span></a>
+            <a href="{{ route('orders.show', $order->id) . '?code=' . $client->id . ($sel_tab ? '&tab=' . $sel_tab : '') }}" class="btn btn-secondary btn-sm"><i class="fas fa-eye"></i><span class="d-none d-lg-inline"> Detalles</span></a>
 
             @if (!$order->finished)
               <a href="{{ route('orders.edit', $order->id) . '?code=' . $client->id }}" class="btn btn-primary btn-sm"><i class="fas fa-pencil-alt"></i><span class="d-none d-lg-inline"> Modificar</span></a>                

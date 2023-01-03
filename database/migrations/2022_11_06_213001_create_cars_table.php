@@ -21,6 +21,8 @@ class CreateCarsTable extends Migration
             $table->unsignedSmallInteger('year')->nullable();
             $table->string('color', 24);
             $table->string('plate', 10);
+            $table->unsignedInteger('next_service')->nullable();
+            $table->unsignedBigInteger('service_id')->nullable();
             $table->unsignedBigInteger('created_by')->nullable();
             $table->unsignedBigInteger('updated_by')->nullable();
             $table->timestamps();

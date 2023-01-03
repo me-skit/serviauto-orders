@@ -137,7 +137,7 @@
 
     <div class="row justify-content-center">
       <div class="col-md-12 col-lg-11 text-end">
-        <a href="{{ route('clients.show', $code) . ($order->finished ? '?tab=historic' : '' ) }}" class="btn btn-secondary me-1"><i class="far fa-arrow-circle-left"></i> {{  __('Regresar') }}</a>
+        <a href="{{ route('clients.show', $code) . ($tab ? '?tab=' . $tab : '') }}" class="btn btn-secondary me-1"><i class="fas fa-arrow-circle-left"></i> {{  __('Regresar') }}</a>
       </div>
     </div>
   </div>

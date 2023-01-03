@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Client;
+use App\Models\Car;
 use App\Models\Item;
 use App\Models\Order;
+use App\Models\Client;
 use Illuminate\Http\Request;
 use Illuminate\Database\QueryException;
 
@@ -48,6 +49,7 @@ class OrderController extends Controller
     public function store(Request $request)
     {
         $code = $request->get('code');
+
         $order_data = $request->validate([
             'car_id' => 'required',
             'date' => ['required', 'date']
@@ -63,6 +65,19 @@ class OrderController extends Controller
             }
         }
 
+        // updating car info
+        $car_data = $request->validate([
+            'next_service' => 'nullable',
+        ]);
+
+        if ($car_data['next_service']){
+            $car_data['service_id'] = $order->id;
+
+            $car = Car::find($order_data['car_id']);
+            $car->fill($car_data);
+            $car->save();
+        }
+
         return redirect('/clients/' . $code);
     }
 
@@ -76,8 +91,9 @@ class OrderController extends Controller
     public function show(Request $request, Order $order)
     {
         $code = $request->get('code');
+        $tab = $request->get('tab');
 
-        return view('orders.show', compact('order', 'code'));
+        return view('orders.show', compact('order', 'code', 'tab'));
     }
 
     /**
@@ -90,11 +106,13 @@ class OrderController extends Controller
     public function edit(Request $request, Order $order)
     {
         $code = $request->get('code');
+        $tab = $request->get('tab');
+
         $client = Client::find($code);
 
         $items_list = Item::orderBy('description')->get();
 
-        return view('orders.edit', compact('order', 'client', 'items_list'));
+        return view('orders.edit', compact('order', 'client', 'items_list', 'tab'));
     }
 
     /**
@@ -106,13 +124,36 @@ class OrderController extends Controller
      */
     public function update(Request $request, Order $order)
     {
-        // update order
         $code = $request->get('code');
+        $tab = $request->get('tab');
+        
         $order_data = $request->validate([
             'car_id' => 'required',
             'date' => ['required', 'date']
         ]);
 
+        $car_data = $request->validate([
+            'next_service' => 'nullable',
+        ]);
+
+        // updating car info
+        if ($car_data['next_service']) {
+            $car_data['service_id'] = $order->id;
+
+            $car = Car::find($order_data['car_id']);
+            $prev_car = $order->car;
+
+            if ($prev_car and ($prev_car->service_id != $car->service_id)) {
+                $prev_car->next_service = null;
+                $prev_car->service_id = null;
+                $prev_car->save();
+            }
+
+            $car->fill($car_data);
+            $car->save();    
+        }
+
+        // update order
         $order->fill($order_data);
         $order->save();
 
@@ -121,7 +162,7 @@ class OrderController extends Controller
         $items = $order->items;
         $this->UpdateItems($items, $order_items, $order);
 
-        return redirect('/clients/' . $code);
+        return redirect('/clients/' . $code . ($tab ? '?tab=' . $tab : ''));
     }
 
     /**
