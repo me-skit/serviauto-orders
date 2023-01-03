@@ -35,6 +35,7 @@ Route::resource('orders', OrderController::class)->except([
     'index'
 ]);
 
+Route::patch('cars/{car}/removeservice', [CarController::class, 'remove_service'])->name('cars.remove_service');
 Route::resource('cars', CarController::class)->except([
     'index', 'show'
 ]);

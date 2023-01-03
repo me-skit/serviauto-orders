@@ -88,6 +88,26 @@ class CarController extends Controller
     }
 
     /**
+     * Update the specified resource in storage.
+     *
+     * @param  \App\Http\Requests\Request  $request
+     * @param  \App\Models\Car  $car
+     * @return \Illuminate\Http\Response
+     */
+    public function remove_service(Request $request, Car $car)
+    {
+        $code = $request->get('code');
+        $order_id = $request->get('order');
+
+        $car->next_service = null;
+        $car->service_id = null;
+        $car->updated_by = Auth::id();
+        $car->save();
+
+        return redirect('/orders/' . $order_id . '/edit' . '?tab=cars&code=' . $code)->with('info', 'Registro para "siguiente servicio" fue eliminado');
+    }
+
+    /**
      * Remove the specified resource from storage.
      *
      * @param  \Illuminate\Http\Request  $request

@@ -89,7 +89,7 @@
                 <div class="col-lg-7 col-xl-6">
                   <div class="row mb-md-3">
                     <label for="next_service" class="col-md-3 col-form-label text-md-end">Sig. Servicio</label>
-                    <div class="col-md-7 col-lg-9">
+                    <div class="col-md-7 col-lg-9 d-flex">
                       <input type="text"
                         name="next_service"
                         id="next_service"
@@ -99,6 +99,9 @@
                         title="Deben números como 1,000 o 1,000,000"
                         placeholder="Siguente servicio"
                       >
+                      @if ($order->car->service_id and ($order->car->service_id == $order->id))
+                        <a href="#" class="btn btn-danger ms-2" data-bs-toggle="modal" data-bs-target="#delServiceModal"><i class="fas fa-trash-alt"></i></a>                          
+                      @endif
                     </div>
                   </div>
                 </div>
@@ -126,4 +129,5 @@
   </div>
 
   @include('orders.modal-delete')
+  @include('cars.modal-delete_service')
 @endsection
