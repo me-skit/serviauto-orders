@@ -29,9 +29,23 @@ class Order extends Model
 
     public function getTotalAttribute()
     {
-        $total = DB::select(DB::raw("SELECT SUM(order_items.quantity * order_items.price) as cents
-                                           FROM order_items
-                                           WHERE order_items.order_id = ?"), [$this->id]);
+        $total = DB::select(DB::raw("SELECT SUM(order_items.quantity * order_items.price) AS cents
+                                     FROM order_items
+                                     WHERE order_items.order_id = ?"), [$this->id]);
+
+        return "Q " .  number_format($total[0]->cents / 100, 2, '.', ',');
+    }
+
+    // static methods
+
+    public static function totalByClientOrders($client_id)
+    {
+        $total = DB::select(DB::raw("SELECT SUM(order_items.quantity * order_items.price) AS cents
+                                     FROM order_items
+                                     WHERE order_items.order_id IN (SELECT id AS order_id
+                                                                    FROM orders
+                                                                    WHERE orders.client_id = ?
+                                                                        AND orders.finished IS NULL)"), [$client_id]);
 
         return "Q " .  number_format($total[0]->cents / 100, 2, '.', ',');
     }

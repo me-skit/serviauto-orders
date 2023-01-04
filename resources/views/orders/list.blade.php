@@ -26,5 +26,15 @@
         </tr>
       @endforeach
     </tbody>
+    @if ($total_sum)
+      <tfoot>
+        <td></td>
+        <td class="text-center" colspan="2">SUMA TOTAL</td>
+        <td class="text-end text-truncate" id="total-cell">
+          {{ $total_sum }}
+        </td>
+        <td></td>
+      </tfoot>
+    @endif
   </table>
 </div>

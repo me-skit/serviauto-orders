@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Order;
 use App\Models\Client;
 use Illuminate\Http\Request;
 use App\Http\Requests\ClientRequest;
@@ -91,8 +92,9 @@ class ClientController extends Controller
         $past_orders = $client->historic()->with('car')->paginate(30);
         $car_list = $client->cars()->with('service')->paginate(30);
         $can_be_deleted = (count($active_orders) or count($car_list)) ? false : true;
+        $grand_total = Order::totalByClientOrders($client->id);
 
-        return view('clients.show', compact('client', 'tab', 'active_orders', 'past_orders', 'car_list', 'can_be_deleted'));
+        return view('clients.show', compact('client', 'tab', 'active_orders', 'past_orders', 'car_list', 'can_be_deleted', 'grand_total'));
     }
 
     /**
