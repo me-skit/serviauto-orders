@@ -6,17 +6,17 @@
       <div class="col-12 col-xl-11 col-xxl-9">
         <div class="card mb-3">
           <div class="card-body">
-            <div class="p-4 bg-light rounded">
+            <div class="p-2">
               <div class="d-flex justify-content-between">
-                <div class="d-flex">
-                  <h1 class="display-6">{{ $client->name }}</h1>
-                  <a href="{{ route('clients.edit', $client->id) }}" class="btn btn-outline-primary align-self-center mx-1"><i class="fas fa-pencil-alt"></i></a>
-                  <a href="#" class="btn btn-outline-danger align-self-center{{ $can_be_deleted ? '' : ' disabled' }}" role="button" aria-disabled="{{ $can_be_deleted }}" data-bs-toggle="modal" data-bs-target="#delClientModal"><i class="fas fa-trash-alt"></i></a>
+                <div class="d-flex align-items-center">
+                  <h4 class="align-self-end mb-1">{{ $client->name }}</h4>
+                  <a href="{{ route('clients.edit', $client->id) }}" class="btn btn-sm btn-outline-primary ms-2 me-1"><i class="fas fa-pencil-alt"></i></a>
+                  <a href="#" class="btn btn-sm btn-outline-danger{{ $can_be_deleted ? '' : ' disabled' }}" role="button" aria-disabled="{{ $can_be_deleted }}" data-bs-toggle="modal" data-bs-target="#delClientModal"><i class="fas fa-trash-alt"></i></a>
                 </div>
-                <a href="{{ route('clients.index') }}" class="btn btn-secondary align-self-center"><i class="fas fa-arrow-circle-left"></i><span class="d-none d-lg-inline"> Clientes</span></a>
+                <a href="{{ route('clients.index') }}" class="btn btn-secondary my-1"><i class="fas fa-arrow-circle-left"></i><span class="d-none d-lg-inline"> Clientes</span></a>
               </div>
               <hr class="my-0">
-              <p class="lead my-0"><i class="fas fa-phone-rotary"></i> {{ $client->phone_number }}</p>
+              <p class="my-0"><i class="fas fa-phone-rotary"></i> {{ $client->phone_number }}</p>
             </div>
           </div>
 
