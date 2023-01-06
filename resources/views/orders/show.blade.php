@@ -2,14 +2,36 @@
 
 @section('content')
   <div class="container">
-    <div class="row justify-content-center mb-md-2">
+    <div class="row justify-content-center">
       <div class="col-md-12 col-lg-11 d-flex justify-content-between">
-        <h2><i class="far fa-clipboard-list-check"></i> Orden de Trabajo</h2>
+        <div class="d-flex">
+          <img src = "../images/servi-logo.png" alt="ServiAuto logo" height="145"/>
+          <div class="text-center ms-3">
+            <h2 class="mb-0 fw-bolder"><i><span class="text-primary">Servi</span><span class="text-danger">Auto</span></i></h2>
+            <h5 class="mb-0">Servicios Mecánicos y</h5>
+            <h5 class="mt-0">Diagnóstico Computarizado</h5>
+            <p class="mb-0"><i>13 calle 30-45, zona 7 Tikal I</i></p>
+            <p class="mt-0"><i>Tel.: 5928 3710</i></p>
+          </div>
+        </div>
+        <div class="text-center">
+          <h5>Orden de</h5>
+          <h5>Trabajo</h5>
+          <h5><span class="text-danger fw-bold">SA-{{ str_pad($order->id, 4, '0', STR_PAD_LEFT) }}</span></h5>
+        </div>
+      </div>
+    </div>
+
+    <div class="row justify-content-center mt-3 mb-2">
+      <div class="col-md-12 col-lg-11 d-flex justify-content-end">
         @if (!$order->finished)
+        <div class="d-print-none">
           <a href="#" class="btn btn-warning align-self-center{{ $order->items->count() ? '' : ' disabled' }}" role="button" aria-disabled="{{ $order->items->count() ? 'false' : 'true' }}" data-bs-toggle="modal" data-bs-target="#finishOrderModal">
             <i class="fas fa-calendar-check"></i>
             <span class="d-none d-md-inline"> Finalizar</span>
-          </a>            
+          </a>
+          <a id="btn-print" href="#" class="btn btn-light ms-1"><i class="fas fa-print"></i><span class="d-none d-md-inline"> Imprimir</span></a>
+        </div>
         @endif
       </div>
     </div>
@@ -21,69 +43,104 @@
             <span class="fw-bold card-title">Datos Generales</span>
           </div>
           <div class="card-body">
-            <div class="row">
-              <div class="col-lg-6">
-                <div class="row mb-md-3">
-                    <label for="name" class="col-md-3 col-form-label text-md-end">{{ __('Cliente') }}</label>
-                    <div class="col-md-7 col-lg-9">
-                      <input type="text"
-                        name="name"
-                        id="name"
-                        class="form-control @error('name') is-invalid @enderror"
-                        value="{{ $order->client->name }}"
-                        readonly
-                      >
-                    </div>
+            <div class="row small">
+              <div class="col-6">
+                <div class="row">
+                  <div class="col-5 col-md-3 col-lg-5 border-bottom">
+                    Cliente:
+                  </div>
+                  <div class="col-7 col-md-9 col-lg-7">
+                    <b>
+                      {{ $order->client->name }}
+                    </b>
+                  </div>
                 </div>
               </div>
-            
-              <div class="col-lg-6">
-                <div class="row mb-md-3">
-                    <label for="date" class="col-md-3 col-form-label text-md-end">{{ __('Fecha') }}</label>
-                    <div class="col-md-7 col-lg-4">
-                      <input type="date"
-                        name="date"
-                        id="date"
-                        class="form-control text-end"
-                        value="{{ $order->date }}"
-                        readonly
-                      >
-                    </div>
+              <div class="col-6">
+                <div class="row">
+                  <div class="col-5 col-md-3 col-lg-5 border-bottom">
+                    Fecha:
+                  </div>
+                  <div class="col-7 col-md-9 col-lg-7">
+                    <b>
+                      {{ $order->formatted_date }}
+                    </b>
+                  </div>
                 </div>
               </div>
             </div>
 
-            <div class="row">
-              <div class="col-lg-6">
-                <div class="row mb-md-3">
-                    <label for="car_description" class="col-md-3 col-form-label text-md-end">{{ __('Vehículo') }}</label>
-                    <div class="col-md-7 col-lg-9">
-                      <input type="text"
-                        name="car_description"
-                        id="car_description"
-                        class="form-control @error('car_description') is-invalid @enderror"
-                        value="{{ $order->car->description }}"
-                        readonly
-                        >
-                    </div>
+            <br>
+            <h6>Vehículo</h6>
+            <div class="row small">
+              <div class="col-6">
+                <div class="row">
+                  <div class="col-5 col-md-3 col-lg-5 border-bottom">
+                    No. placa:
+                  </div>
+                  <div class="col-7 col-md-9 col-lg-7">
+                    <b>
+                      {{ $order->car->plate }}
+                    </b>
+                  </div>
                 </div>
               </div>
-            
-              <div class="col-lg-6">
-                <div class="row mb-3">
-                    <label for="order_number" class="col-md-3 col-form-label text-md-end">No.</label>
-                    <div class="col-md-7 col-lg-4">
-                      <input type="text"
-                        name="order_number"
-                        id="order_number"
-                        class="form-control text-end"
-                        value="{{ str_pad($order->id, 7, '0', STR_PAD_LEFT) }}"
-                        readonly
-                      >
-                    </div>
+              <div class="col-6">
+              </div>
+            </div>
+            <div class="row small">
+              <div class="col-6">
+                <div class="row">
+                  <div class="col-5 col-md-3 col-lg-5 border-bottom">
+                    Marca:
+                  </div>
+                  <div class="col-7 col-md-9 col-lg-7">
+                    <b>
+                      {{ $order->car->brand }}
+                    </b>
+                  </div>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="row">
+                  <div class="col-5 col-md-3 col-lg-5 border-bottom">
+                    Linea:
+                  </div>
+                  <div class="col-7 col-md-9 col-lg-7">
+                    <b>
+                      {{ $order->car->line }}
+                    </b>
+                  </div>
                 </div>
               </div>
             </div>
+            <div class="row small">
+              <div class="col-6">
+                <div class="row">
+                  <div class="col-5 col-md-3 col-lg-5 border-bottom">
+                    Año:
+                  </div>
+                  <div class="col-7 col-md-9 col-lg-7">
+                    <b>
+                      {{ $order->car->year }}
+                    </b>
+                  </div>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="row">
+                  <div class="col-5 col-md-3 col-lg-5 border-bottom">
+                    Color:
+                  </div>
+                  <div class="col-7 col-md-9 col-lg-7">
+                    <b>
+                      {{ $order->car->color }}
+                    </b>
+                  </div>
+                </div>
+              </div>
+            </div>
+
           </div>
         </div>
       </div>
@@ -135,7 +192,7 @@
       </div>
     </div>
 
-    <div class="row justify-content-center">
+    <div class="row justify-content-center d-print-none">
       <div class="col-md-12 col-lg-11 text-end">
         <a href="{{ route('clients.show', $code) . ($tab ? '?tab=' . $tab : '') }}" class="btn btn-secondary me-1"><i class="fas fa-arrow-circle-left"></i> {{  __('Regresar') }}</a>
       </div>

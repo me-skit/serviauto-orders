@@ -14,7 +14,7 @@
         <tr>
           <td  class="align-middle text-center">{{ ($list->currentPage() - 1) * $list->perPage() + $key + 1 }}</td>
           <td class="align-middle text-truncate">{{ $order->car->brand . ' ' . $order->car->line . ' ' . $order->car->color }}<span class="d-none d-md-inline">{{ ', año ' . $order->car->year }}</span><span class="d-none d-sm-inline">{{ ', ' . $order->car->plate }}</span></td>
-          <td class="align-middle text-center">{{ date_format(date_create($order->date), 'd/m/Y') }}</td>
+          <td class="align-middle text-center">{{ $order->formatted_date }}</td>
           <td class="align-middle text-end text-truncate">{{ $order->total }}</td>
           <td class="align-middle text-center text-truncate">
             <a href="{{ route('orders.show', $order->id) . '?code=' . $client->id . ($sel_tab ? '&tab=' . $sel_tab : '') }}" class="btn btn-secondary btn-sm"><i class="fas fa-eye"></i><span class="d-none d-lg-inline"> Detalles</span></a>

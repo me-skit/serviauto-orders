@@ -18,7 +18,7 @@
 <body class="bg-white">
   <div id="app">
     @auth
-    <nav class="navbar navbar-expand-md navbar-dark bg-dark shadow-sm">
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark shadow-sm d-print-none">
       <div class="container">
         <a class="navbar-brand" href="{{ url('/') }}">
             {{ config('app.name', 'Laravel') }}

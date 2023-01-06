@@ -368,3 +368,12 @@ setDeleteItemAction = () => {
 }
 
 setDeleteItemAction();
+
+// ------------------------------------------------------------
+//                    Setting Delete Actions
+// ------------------------------------------------------------
+
+const printBtn = document.getElementById('btn-print');
+if (printBtn) {
+  printBtn.addEventListener('click', () => print());
+}
