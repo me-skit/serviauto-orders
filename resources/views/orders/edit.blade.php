@@ -9,10 +9,17 @@
       <div class="row justify-content-center mb-md-2">
         <div class="col-md-12 col-lg-11 d-flex justify-content-between">
           <h2><i class="fas fa-clipboard-list"></i> Editar Orden<span class="d-none d-md-inline"> de Trabajo</span></h2>
-          <a href="#" class="btn btn-danger align-self-center{{ $order->items->count() ? ' disabled' : '' }}" role="button" aria-disabled="{{ $order->items->count() ? 'false' : 'true' }}" data-bs-toggle="modal" data-bs-target="#delOrderModal">
-            <i class="fas fa-trash-alt"></i>
-            <span class="d-none d-md-inline"> Eliminar</span>
-          </a>
+
+          <div>
+            <a href="#" class="btn btn-danger align-self-center{{ $order->items->count() ? ' disabled' : '' }}" role="button" aria-disabled="{{ $order->items->count() ? 'false' : 'true' }}" data-bs-toggle="modal" data-bs-target="#delOrderModal">
+              <i class="fas fa-trash-alt"></i>
+              <span class="d-none d-md-inline"> Eliminar</span>
+            </a>
+            <a href="#" class="btn btn-warning align-self-center{{ $order->items->count() ? '' : ' disabled' }}" role="button" aria-disabled="{{ $order->items->count() ? 'false' : 'true' }}" data-bs-toggle="modal" data-bs-target="#finishOrderModal">
+              <i class="fas fa-calendar-check"></i>
+              <span class="d-none d-md-inline"> Finalizar</span>
+            </a>
+          </div>
         </div>
       </div>
 
@@ -129,5 +136,6 @@
   </div>
 
   @include('orders.modal-delete')
+  @include('orders.modal-finish')
   @include('cars.modal-delete_service')
 @endsection

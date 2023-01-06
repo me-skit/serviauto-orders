@@ -30,7 +30,7 @@
       <tfoot>
         <td></td>
         <td class="text-center" colspan="2">SUMA TOTAL</td>
-        <td class="text-end text-truncate" id="total-cell">
+        <td class="text-end text-truncate">
           {{ $total_sum }}
         </td>
         <td></td>

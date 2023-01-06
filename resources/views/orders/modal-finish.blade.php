@@ -1,7 +1,7 @@
 <div class="modal fade" id="finishOrderModal" tabindex="-1" aria-labelledby="finishOrderModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
-      <form action="{{ route('orders.finish', $order->id) . '?code='. $code }}" method="POST">
+      <form action="{{ route('orders.finish', $order->id) . '?code='. $client->id . ($tab ? '&tab=' . $tab : '') }}" method="POST">
         @csrf
         @method('patch')
 

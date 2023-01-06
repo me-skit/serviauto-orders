@@ -25,7 +25,7 @@ const getOptionChosen = input => {
 };
 
 // ------------------------------------------------------------
-//                      Getting the Total
+//                   Getting the order total
 // ------------------------------------------------------------
 
 const getTotal = () => {

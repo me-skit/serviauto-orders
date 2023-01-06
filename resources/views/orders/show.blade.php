@@ -8,31 +8,25 @@
           <img src = "../images/servi-logo.png" alt="ServiAuto logo" height="145"/>
           <div class="text-center ms-3">
             <h2 class="mb-0 fw-bolder"><i><span class="text-primary">Servi</span><span class="text-danger">Auto</span></i></h2>
-            <h5 class="mb-0">Servicios Mecánicos y</h5>
-            <h5 class="mt-0">Diagnóstico Computarizado</h5>
-            <p class="mb-0"><i>13 calle 30-45, zona 7 Tikal I</i></p>
-            <p class="mt-0"><i>Tel.: 5928 3710</i></p>
+            <h6 class="mb-0">Servicios Mecánicos y</h5>
+            <h6 class="mt-0">Diagnóstico Computarizado</h5>
+            <p class="small mb-0"><i>13 calle 30-45, zona 7, Tikal I</i></p>
+            <p class="small mt-0"><i>Tel.: 5928 3710</i></p>
           </div>
         </div>
         <div class="text-center">
-          <h5>Orden de</h5>
-          <h5>Trabajo</h5>
-          <h5><span class="text-danger fw-bold">SA-{{ str_pad($order->id, 4, '0', STR_PAD_LEFT) }}</span></h5>
+          <h6>Orden de</h6>
+          <h6>Trabajo</h6>
+          <h6><span class="text-danger fw-bold">SA-{{ str_pad($order->id, 4, '0', STR_PAD_LEFT) }}</span></h6>
         </div>
       </div>
     </div>
 
     <div class="row justify-content-center mt-3 mb-2">
       <div class="col-md-12 col-lg-11 d-flex justify-content-end">
-        @if (!$order->finished)
         <div class="d-print-none">
-          <a href="#" class="btn btn-warning align-self-center{{ $order->items->count() ? '' : ' disabled' }}" role="button" aria-disabled="{{ $order->items->count() ? 'false' : 'true' }}" data-bs-toggle="modal" data-bs-target="#finishOrderModal">
-            <i class="fas fa-calendar-check"></i>
-            <span class="d-none d-md-inline"> Finalizar</span>
-          </a>
           <a id="btn-print" href="#" class="btn btn-light ms-1"><i class="fas fa-print"></i><span class="d-none d-md-inline"> Imprimir</span></a>
         </div>
-        @endif
       </div>
     </div>
 
@@ -40,16 +34,16 @@
       <div class="col-md-12 col-lg-11">
         <div class="card mb-3">
           <div class="card-header">
-            <span class="fw-bold card-title">Datos Generales</span>
+            <span class="fw-bold card-title">Datos de la Orden</span>
           </div>
           <div class="card-body">
             <div class="row small">
               <div class="col-6">
                 <div class="row">
-                  <div class="col-5 col-md-3 col-lg-5 border-bottom">
+                  <div class="col-5 col-md-4 col-lg-5 border-bottom">
                     Cliente:
                   </div>
-                  <div class="col-7 col-md-9 col-lg-7">
+                  <div class="col-7 col-md-8 col-lg-7">
                     <b>
                       {{ $order->client->name }}
                     </b>
@@ -58,10 +52,10 @@
               </div>
               <div class="col-6">
                 <div class="row">
-                  <div class="col-5 col-md-3 col-lg-5 border-bottom">
+                  <div class="col-5 col-md-4 col-lg-5 border-bottom">
                     Fecha:
                   </div>
-                  <div class="col-7 col-md-9 col-lg-7">
+                  <div class="col-7 col-md-8 col-lg-7">
                     <b>
                       {{ $order->formatted_date }}
                     </b>
@@ -75,10 +69,10 @@
             <div class="row small">
               <div class="col-6">
                 <div class="row">
-                  <div class="col-5 col-md-3 col-lg-5 border-bottom">
+                  <div class="col-5 col-md-4 col-lg-5 border-bottom">
                     No. placa:
                   </div>
-                  <div class="col-7 col-md-9 col-lg-7">
+                  <div class="col-7 col-md-8 col-lg-7">
                     <b>
                       {{ $order->car->plate }}
                     </b>
@@ -86,15 +80,27 @@
                 </div>
               </div>
               <div class="col-6">
+                @if ($order->car->service_id and ($order->car->service_id == $order->id))
+                <div class="row">
+                  <div class="col-5 col-md-4 col-lg-5 border-bottom">
+                    Sig. Servicio:
+                  </div>
+                  <div class="col-7 col-md-8 col-lg-7">
+                    <b>
+                      {{ number_format($order->car->next_service) }}
+                    </b>
+                  </div>
+                </div>
+                @endif
               </div>
             </div>
             <div class="row small">
               <div class="col-6">
                 <div class="row">
-                  <div class="col-5 col-md-3 col-lg-5 border-bottom">
+                  <div class="col-5 col-md-4 col-lg-5 border-bottom">
                     Marca:
                   </div>
-                  <div class="col-7 col-md-9 col-lg-7">
+                  <div class="col-7 col-md-8 col-lg-7">
                     <b>
                       {{ $order->car->brand }}
                     </b>
@@ -103,10 +109,10 @@
               </div>
               <div class="col-6">
                 <div class="row">
-                  <div class="col-5 col-md-3 col-lg-5 border-bottom">
+                  <div class="col-5 col-md-4 col-lg-5 border-bottom">
                     Linea:
                   </div>
-                  <div class="col-7 col-md-9 col-lg-7">
+                  <div class="col-7 col-md-8 col-lg-7">
                     <b>
                       {{ $order->car->line }}
                     </b>
@@ -117,10 +123,10 @@
             <div class="row small">
               <div class="col-6">
                 <div class="row">
-                  <div class="col-5 col-md-3 col-lg-5 border-bottom">
+                  <div class="col-5 col-md-4 col-lg-5 border-bottom">
                     Año:
                   </div>
-                  <div class="col-7 col-md-9 col-lg-7">
+                  <div class="col-7 col-md-8 col-lg-7">
                     <b>
                       {{ $order->car->year }}
                     </b>
@@ -129,10 +135,10 @@
               </div>
               <div class="col-6">
                 <div class="row">
-                  <div class="col-5 col-md-3 col-lg-5 border-bottom">
+                  <div class="col-5 col-md-4 col-lg-5 border-bottom">
                     Color:
                   </div>
-                  <div class="col-7 col-md-9 col-lg-7">
+                  <div class="col-7 col-md-8 col-lg-7">
                     <b>
                       {{ $order->car->color }}
                     </b>
@@ -198,6 +204,4 @@
       </div>
     </div>
   </div>
-  
-  @include('orders.modal-finish')
 @endsection

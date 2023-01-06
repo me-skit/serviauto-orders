@@ -176,6 +176,8 @@ class OrderController extends Controller
     {
         // update order
         $code = $request->get('code');
+        $tab = $request->get('tab');
+
         $order_data = $request->validate([
             'finished' => ['required', 'date']
         ]);
@@ -183,7 +185,7 @@ class OrderController extends Controller
         $order->fill($order_data);
         $order->save();
 
-        return redirect('/clients/' . $code);
+        return redirect('/clients/' . $code . ($tab ? '?tab=' . $tab : ''));
     }
 
     /**
