@@ -5,8 +5,8 @@
     <div class="row justify-content-center">
       <div class="col-md-12 col-lg-11 d-flex justify-content-between">
         <div class="d-flex">
-          <img src = "../images/servi-logo.png" alt="ServiAuto logo" height="145"/>
-          <div class="text-center ms-3">
+          <img src = "../images/servi-logo.png" alt="ServiAuto logo" height="130"/>
+          <div class="text-center ms-2">
             <h2 class="mb-0 fw-bolder"><i><span class="text-primary">Servi</span><span class="text-danger">Auto</span></i></h2>
             <h6 class="mb-0">Servicios Mecánicos y</h5>
             <h6 class="mt-0">Diagnóstico Computarizado</h5>

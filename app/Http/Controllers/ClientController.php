@@ -91,7 +91,7 @@ class ClientController extends Controller
         $active_orders = $client->orders()->with('car')->paginate(30);
         $past_orders = $client->historic()->with('car')->paginate(30);
         $car_list = $client->cars()->with('service')->paginate(30);
-        $can_be_deleted = (count($active_orders) or count($car_list)) ? false : true;
+        $can_be_deleted = (count($active_orders) or count($past_orders) or count($car_list)) ? false : true;
         $grand_total = Order::totalByClientOrders($client->id);
 
         return view('clients.show', compact('client', 'tab', 'active_orders', 'past_orders', 'car_list', 'can_be_deleted', 'grand_total'));
