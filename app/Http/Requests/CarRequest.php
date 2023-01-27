@@ -27,8 +27,10 @@ class CarRequest extends FormRequest
             'brand' => 'required',
             'line' => 'required',
             'year' => ['required', 'numeric'],
-            'color' => 'required',
-            'plate' => 'required'
+            'color' => 'nullable',
+            'engine_number' => 'nullable',
+            'cc' => ['nullable'],
+            'chassis_number' => 'nullable'
         ];
     }
 }

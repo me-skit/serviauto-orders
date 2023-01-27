@@ -9,7 +9,7 @@ class Car extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['client_id', 'brand', 'line', 'year', 'color', 'plate', 'next_service', 'service_id', 'created_by', 'updated_by'];
+    protected $fillable = ['client_id', 'brand', 'line', 'year', 'color', 'engine_number', 'cc', 'chassis_number', 'next_service', 'service_id', 'created_by', 'updated_by'];
 
     public function client()
     {
@@ -34,5 +34,10 @@ class Car extends Model
     public function setNextServiceAttribute($value)
     {
         $this->attributes['next_service'] = $value ? str_replace(',', '', $value) : null;
+    }
+
+    public function setCcAttribute($value)
+    {
+        $this->attributes['cc'] = $value ? str_replace(',', '', $value) : null;
     }
 }

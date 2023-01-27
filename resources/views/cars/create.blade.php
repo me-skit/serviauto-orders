@@ -71,15 +71,14 @@
               </div>
 
               <div class="form-group row mb-3">
-                <label for="color" class="col-md-3 col-form-label text-md-end">{{ __('Color') }}<span class="text-danger">*</span></label>
+                <label for="color" class="col-md-3 col-form-label text-md-end">{{ __('Color') }}</label>
                 <div class="col-md-7">
                   <input type="text"
                     name="color"
                     id="color"
                     class="form-control @error('color') is-invalid @enderror"
                     value="{{ old('color') }}"
-                    placeholder="Color"
-                    required>
+                    placeholder="Color">
 
                   @error('color')
                     <span class="invalid-feedback" role="alert">
@@ -90,17 +89,54 @@
               </div>
 
               <div class="form-group row mb-3">
-                <label for="plate" class="col-md-3 col-form-label text-md-end">{{ __('Placa') }}<span class="text-danger">*</span></label>
+                <label for="engine_number" class="col-md-3 col-form-label text-md-end">{{ __('Motor') }}</label>
                 <div class="col-md-7">
                   <input type="text"
-                    name="plate"
-                    id="plate"
-                    class="form-control @error('plate') is-invalid @enderror"
-                    value="{{ old('plate') }}"
-                    placeholder="Placa"
-                    required>
+                    name="engine_number"
+                    id="engine_number"
+                    class="form-control @error('engine_number') is-invalid @enderror"
+                    value="{{ old('engine_number') }}"
+                    placeholder="Número de motor">
 
-                  @error('plate')
+                  @error('engine_number')
+                    <span class="invalid-feedback" role="alert">
+                      <strong>{{ $message }}</strong>
+                    </span>
+                  @enderror
+                </div>
+              </div>
+
+              <div class="form-group row mb-3">
+                <label for="cc" class="col-md-3 col-form-label text-md-end">{{ __('CC') }}</label>
+                <div class="col-md-7">
+                  <input type="text"
+                    name="cc"
+                    id="cc"
+                    class="form-control @error('cc') is-invalid @enderror"
+                    value="{{ old('cc') }}"
+                    pattern="(([1-9]\d{0,2}(,\d{3})*)|([1-9]\d*))"
+                    title="Debe ser un número como: 1,000 o 1,000,000"
+                    placeholder="Centímetros cúbicos">
+
+                  @error('cc')
+                    <span class="invalid-feedback" role="alert">
+                      <strong>{{ $message }}</strong>
+                    </span>
+                  @enderror
+                </div>
+              </div>
+
+              <div class="form-group row mb-3">
+                <label for="chassis_number" class="col-md-3 col-form-label text-md-end">{{ __('Chasis') }}</label>
+                <div class="col-md-7">
+                  <input type="text"
+                    name="chassis_number"
+                    id="chassis_number"
+                    class="form-control @error('chassis_number') is-invalid @enderror"
+                    value="{{ old('chassis_number') }}"
+                    placeholder="Número de chasis">
+
+                  @error('chassis_number')
                     <span class="invalid-feedback" role="alert">
                       <strong>{{ $message }}</strong>
                     </span>

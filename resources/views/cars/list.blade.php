@@ -7,7 +7,6 @@
             <th>Linea</th>
             <th>Año</th>
             <th>Color</th>
-            <th>Placas</th>
             <th>Servicio</th>
             <th>Acciones</th>
         </tr>
@@ -20,7 +19,6 @@
           <td class="align-middle">{{ $car->line }}</td>
           <td class="align-middle">{{ $car->year }}</td>
           <td class="align-middle">{{ $car->color }}</td>
-          <td class="align-middle">{{ $car->plate }}</td>
           <td class="align-middle">
             @if ($car->next_service)
               <a href="{{ $car->service->finished ? route("orders.show", $car->service->id) . '?tab=cars&code=' . $client->id : route("orders.edit", $car->service->id) . '?tab=cars&code=' . $client->id }}">{{ number_format($car->next_service) }}</a>
