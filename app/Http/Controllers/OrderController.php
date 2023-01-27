@@ -7,6 +7,7 @@ use App\Models\Item;
 use App\Models\Order;
 use App\Models\Client;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\QueryException;
 
 class OrderController extends Controller
@@ -56,6 +57,7 @@ class OrderController extends Controller
         ]);
 
         $order_data['client_id'] = $code;
+        $order_data['created_by'] = Auth::id();
         $order = Order::create($order_data);
 
         $order_items = $request->input('order_items');
@@ -156,6 +158,7 @@ class OrderController extends Controller
         }
 
         // update order
+        $order_data['updated_by'] = Auth::id();
         $order->fill($order_data);
         $order->save();
 
@@ -184,6 +187,7 @@ class OrderController extends Controller
             'finished' => ['required', 'date']
         ]);
 
+        $order_data['updated_by'] = Auth::id();
         $order->fill($order_data);
         $order->save();
 
