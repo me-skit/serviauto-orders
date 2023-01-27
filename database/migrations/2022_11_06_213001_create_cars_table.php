@@ -24,6 +24,7 @@ class CreateCarsTable extends Migration
             $table->unsignedInteger('cc')->nullable();
             $table->string('chassis_number', 24)->nullable();
             $table->unsignedInteger('next_service')->nullable();
+            $table->string('measure', 6)->nullable();
             $table->unsignedBigInteger('service_id')->nullable();
             $table->unsignedBigInteger('created_by')->nullable();
             $table->unsignedBigInteger('updated_by')->nullable();

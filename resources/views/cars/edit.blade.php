@@ -114,7 +114,7 @@
                     name="cc"
                     id="cc"
                     class="form-control @error('cc') is-invalid @enderror"
-                    value="{{ old('cc') ?? number_format($car->cc) }}"
+                    value="{{ old('cc') ?? ($car->cc ? number_format($car->cc) : '') }}"
                     pattern="(([1-9]\d{0,2}(,\d{3})*)|([1-9]\d*))"
                     title="Debe ser un número como: 1,000 o 1,000,000"
                     placeholder="Centímetros cúbicos">

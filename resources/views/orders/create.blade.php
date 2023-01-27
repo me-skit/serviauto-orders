@@ -85,15 +85,21 @@
                   <div class="row mb-md-3">
                     <label for="next_service" class="col-md-3 col-form-label text-md-end">Sig. Servicio</label>
                     <div class="col-md-7 col-lg-9">
-                      <input type="text"
-                        name="next_service"
-                        id="next_service"
-                        class="form-control"
-                        value="{{ old('next_service') }}"
-                        pattern="(([1-9]\d{0,2}(,\d{3})*)|([1-9]\d*))"
-                        title="Debe ser un número como: 1,000 o 1,000,000"
-                        placeholder="Siguente servicio"
-                      >
+                      <div class="input-group">
+                        <input type="text"
+                          name="next_service"
+                          id="next_service"
+                          class="form-control"
+                          value="{{ old('next_service') }}"
+                          pattern="(([1-9]\d{0,2}(,\d{3})*)|([1-9]\d*))"
+                          title="Debe ser un número como: 1,000 o 1,000,000"
+                          placeholder="Siguente servicio">
+
+                        <select name="measure" class="form-select">
+                          <option value="km">Kilómetros</option>
+                          <option value="mi">Millas</option>
+                        </select>
+                      </div>
                     </div>
                   </div>
                 </div>

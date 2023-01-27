@@ -68,6 +68,7 @@ class OrderController extends Controller
         // updating car info
         $car_data = $request->validate([
             'next_service' => 'nullable',
+            'measure' => 'nullable'
         ]);
 
         if ($car_data['next_service']){
@@ -134,6 +135,7 @@ class OrderController extends Controller
 
         $car_data = $request->validate([
             'next_service' => 'nullable',
+            'measure' => 'nullable'
         ]);
 
         // updating car info

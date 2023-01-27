@@ -97,15 +97,22 @@
                   <div class="row mb-md-3">
                     <label for="next_service" class="col-md-3 col-form-label text-md-end">Sig. Servicio</label>
                     <div class="col-md-7 col-lg-9 d-flex">
-                      <input type="text"
-                        name="next_service"
-                        id="next_service"
-                        class="form-control"
-                        value="{{ ($order->car->service_id and $order->car->service_id == $order->id) ? number_format($order->car->next_service) : '' }}"
-                        pattern="(([1-9]\d{0,2}(,\d{3})*)|([1-9]\d*))"
-                        title="Debe ser un número como: 1,000 o 1,000,000"
-                        placeholder="Siguente servicio"
-                      >
+                      <div class="input-group">
+                        <input type="text"
+                          name="next_service"
+                          id="next_service"
+                          class="form-control flex-grow-2"
+                          value="{{ ($order->car->service_id and $order->car->service_id == $order->id) ? number_format($order->car->next_service) : '' }}"
+                          pattern="(([1-9]\d{0,2}(,\d{3})*)|([1-9]\d*))"
+                          title="Debe ser un número como: 1,000 o 1,000,000"
+                          placeholder="Siguente servicio">
+
+                        <select name="measure" class="form-select">
+                          <option value="km" {{ ($order->car->measure and $order->car->measure == 'km') ? 'selected' : '' }}>Kilómetros</option>
+                          <option value="mi" {{ ($order->car->measure and $order->car->measure == 'mi') ? 'selected' : '' }}>Millas</option>
+                        </select>
+                      </div>
+
                       @if ($order->car->service_id and ($order->car->service_id == $order->id))
                         <a href="#" class="btn btn-danger ms-2" data-bs-toggle="modal" data-bs-target="#delServiceModal"><i class="fas fa-trash-alt"></i></a>                          
                       @endif

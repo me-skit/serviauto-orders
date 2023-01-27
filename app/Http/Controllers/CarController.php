@@ -100,6 +100,7 @@ class CarController extends Controller
         $order_id = $request->get('order');
 
         $car->next_service = null;
+        $car->measure = null;
         $car->service_id = null;
         $car->updated_by = Auth::id();
         $car->save();

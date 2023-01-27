@@ -69,35 +69,15 @@
             </div>
 
             <br>
-            <h6>Vehículo</h6>
-            <div class="row small">
-              <div class="col-6">
-                <div class="row">
-                  <div class="col-5 col-md-4 col-lg-5 border-bottom">
-                    No. placa:
-                  </div>
-                  <div class="col-7 col-md-8 col-lg-7">
-                    <b>
-                      {{ $order->car->plate }}
-                    </b>
-                  </div>
-                </div>
+            @if ($order->car->next_service)
+              <div class="mb-1">
+                <h6 class="d-inline">Vehículo</h6>
+                <p class="d-inline">(Sigiente servicio: {{ number_format($order->car->next_service) }} {{ $order->car->measure }})</p>
               </div>
-              <div class="col-6">
-                @if ($order->car->service_id and ($order->car->service_id == $order->id))
-                <div class="row">
-                  <div class="col-5 col-md-4 col-lg-5 border-bottom">
-                    Sig. Servicio:
-                  </div>
-                  <div class="col-7 col-md-8 col-lg-7">
-                    <b>
-                      {{ number_format($order->car->next_service) }}
-                    </b>
-                  </div>
-                </div>
-                @endif
-              </div>
-            </div>
+            @else
+              <h6>Vehículo</h6>
+            @endif
+
             <div class="row small">
               <div class="col-6">
                 <div class="row">
@@ -139,18 +119,19 @@
               </div>
               <div class="col-6">
                 <div class="row">
-                  <div class="col-5 col-md-4 col-lg-5 border-bottom">
-                    Color:
-                  </div>
-                  <div class="col-7 col-md-8 col-lg-7">
-                    <b>
-                      {{ $order->car->color }}
-                    </b>
-                  </div>
+                  @if ($order->car->color)
+                    <div class="col-5 col-md-4 col-lg-5 border-bottom">
+                      Color:
+                    </div>
+                    <div class="col-7 col-md-8 col-lg-7">
+                      <b>
+                        {{ $order->car->color }}
+                      </b>
+                    </div>
+                  @endif
                 </div>
               </div>
             </div>
-
           </div>
         </div>
       </div>

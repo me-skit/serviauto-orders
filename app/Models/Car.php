@@ -9,7 +9,7 @@ class Car extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['client_id', 'brand', 'line', 'year', 'color', 'engine_number', 'cc', 'chassis_number', 'next_service', 'service_id', 'created_by', 'updated_by'];
+    protected $fillable = ['client_id', 'brand', 'line', 'year', 'color', 'engine_number', 'cc', 'chassis_number', 'next_service', 'measure', 'service_id', 'created_by', 'updated_by'];
 
     public function client()
     {
@@ -28,7 +28,7 @@ class Car extends Model
 
     public function getDescriptionAttribute()
     {
-        return $this->brand . ' ' . $this->line . ' ' . $this->color . ', año '. $this->year . ', ' . $this->plate;
+        return $this->brand . ' ' . $this->line . ($this->color ? ' ' . $this->color : '') . ', modelo '. $this->year;
     }
 
     public function setNextServiceAttribute($value)
