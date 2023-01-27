@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Order;
 use App\Models\Client;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\ClientRequest;
 use Illuminate\Database\QueryException;
 
@@ -73,6 +74,7 @@ class ClientController extends Controller
     public function store(ClientRequest $request)
     {
         $data = $request->validated();
+        $data['created_by'] = Auth::id();
         $client = Client::create($data);
 
         return redirect()->route('clients.show', $client->id);
@@ -118,6 +120,7 @@ class ClientController extends Controller
     public function update(ClientRequest $request, Client $client)
     {
         $data = $request->validated();
+        $data['updated_by'] = Auth::id();
         $client->fill($data);
         $client->save();
 
