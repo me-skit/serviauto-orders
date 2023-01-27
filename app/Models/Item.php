@@ -9,7 +9,7 @@ class Item extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['description', 'price'];
+    protected $fillable = ['description', 'price', 'created_by', 'updated_by'];
 
     public function getPriceAttribute($value)
     {

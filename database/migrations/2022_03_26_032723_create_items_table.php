@@ -17,6 +17,8 @@ class CreateItemsTable extends Migration
             $table->id();
             $table->string('description', 200);
             $table->unsignedInteger('price');
+            $table->unsignedBigInteger('created_by')->nullable();
+            $table->unsignedBigInteger('updated_by')->nullable();
             $table->timestamps();
         });
     }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Item;
 use Illuminate\Http\Request;
 use App\Http\Requests\ItemRequest;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\QueryException;
 
 class ItemController extends Controller
@@ -71,6 +72,7 @@ class ItemController extends Controller
     public function store(ItemRequest $request)
     {
         $data = $request->validated();
+        $data['created_by'] = Auth::id();
         Item::create($data);
 
         return redirect('/items');
@@ -97,6 +99,7 @@ class ItemController extends Controller
     public function update(ItemRequest $request, Item $item)
     {
         $data = $request->validated();
+        $data['updated_by'] = Auth::id();
         $item->fill($data);
         $item->save();
 
