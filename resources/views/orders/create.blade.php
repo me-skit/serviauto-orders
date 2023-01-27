@@ -90,8 +90,8 @@
                         id="next_service"
                         class="form-control"
                         value="{{ old('next_service') }}"
-                        pattern="((\d{1,3}(,\d{3})*)|([0-9]+))"
-                        title="Deben números como 1,000 o 1,000,000"
+                        pattern="(([1-9]\d{0,2}(,\d{3})*)|([1-9]\d*))"
+                        title="Debe ser un número como: 1,000 o 1,000,000"
                         placeholder="Siguente servicio"
                       >
                     </div>

@@ -12,7 +12,8 @@
     <tbody>
       @foreach ($list as $key => $order)
         <tr>
-          <td  class="align-middle text-center">{{ ($list->currentPage() - 1) * $list->perPage() + $key + 1 }}</td>
+          {{-- <td  class="align-middle text-center">{{ ($list->currentPage() - 1) * $list->perPage() + $key + 1 }}</td> --}}
+          <td  class="align-middle text-center">{{ $order->id }}</td>
           <td class="align-middle text-truncate">{{ $order->car->brand . ' ' . $order->car->line . ' ' . $order->car->color }}<span class="d-none d-md-inline">{{ ', año ' . $order->car->year }}</span><span class="d-none d-sm-inline">{{ ', ' . $order->car->plate }}</span></td>
           <td class="align-middle text-center">{{ $order->formatted_date }}</td>
           <td class="align-middle text-end text-truncate">{{ $order->total }}</td>

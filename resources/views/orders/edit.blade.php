@@ -102,8 +102,8 @@
                         id="next_service"
                         class="form-control"
                         value="{{ ($order->car->service_id and $order->car->service_id == $order->id) ? number_format($order->car->next_service) : '' }}"
-                        pattern="(([1-9]{1,3}(,\d{3})*)|([1-9]\d*))"
-                        title="Deben números como 1,000 o 1,000,000"
+                        pattern="(([1-9]\d{0,2}(,\d{3})*)|([1-9]\d*))"
+                        title="Debe ser un número como: 1,000 o 1,000,000"
                         placeholder="Siguente servicio"
                       >
                       @if ($order->car->service_id and ($order->car->service_id == $order->id))

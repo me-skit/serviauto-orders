@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('title')
+  <title>SA-{{ str_pad($order->id, 6, '0', STR_PAD_LEFT) }}</title>
+@endsection
+
 @section('content')
   <div class="container">
     <div class="row justify-content-center">
@@ -17,7 +21,7 @@
         <div class="text-center">
           <h6>Orden de</h6>
           <h6>Trabajo</h6>
-          <h6><span class="text-danger fw-bold">SA-{{ str_pad($order->id, 4, '0', STR_PAD_LEFT) }}</span></h6>
+          <h6><span class="text-danger fw-bold">SA-{{ str_pad($order->id, 6, '0', STR_PAD_LEFT) }}</span></h6>
         </div>
       </div>
     </div>
