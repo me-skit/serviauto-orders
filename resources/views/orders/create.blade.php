@@ -55,7 +55,7 @@
                   <div class="row mb-md-3">
                       <label for="car_id" class="col-md-3 col-form-label text-md-end">{{ __('Vehículo') }}<span class="text-danger">*</span></label>
                       <div class="col-md-7 col-lg-9">
-                        <select name="car_id" class="form-select" required>
+                        <select name="car_id" id="car_id"  class="form-select" required>
                           @foreach ($client->cars as $car)
                             <option value="{{ $car->id }}">{{ $car->description }}</option>
                           @endforeach
