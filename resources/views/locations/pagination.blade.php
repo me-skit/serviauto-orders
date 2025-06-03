@@ -21,8 +21,8 @@
           <tr>
             <td class="align-middle text-center">{{ ($locations->currentPage() - 1) * $locations->perPage() + $key + 1 }}</td>
             <td class="align-middle text-truncate">{{ $location->location }}</td>
-            <td class="align-middle text-end text-truncate">{{ $location->address }}</td>
-            <td class="align-middle text-end text-truncate">{{ $location->phone }}</td>
+            <td class="align-middle text-truncate">{{ $location->address }}</td>
+            <td class="align-middle text-center text-truncate">{{ $location->phone }}</td>
             <td class="align-middle text-center text-truncate">
               <a href="{{ route('locations.edit', $location->id ) }}" class="btn btn-primary btn-sm"><i class="fas fa-pencil-alt"></i><span class="d-none d-lg-inline"> Modificar</span></a>
               <a href="#" class="btn btn-danger btn-sm btn-dellocation" data-bs-toggle="modal" data-bs-target="#delLocationModal" data-location="{{ $location->id }}"><i class="fas fa-trash-alt"></i><span class="d-none d-lg-inline"> Eliminar</span></a>
