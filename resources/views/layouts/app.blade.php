@@ -42,6 +42,9 @@
                 <li class="nav-item menu-item">
                   <a class="nav-link" href="{{ route('items.index') }}"><i class="fas fa-tools"></i> Repuestos & Servicios</a>
                 </li>
+                <li class="nav-item menu-item">
+                  <a class="nav-link" href="{{ route('locations.index') }}"><i class="fas fa-car-mechanic"></i> Talleres</a>
+                </li>
               @endauth
             </ul>
 

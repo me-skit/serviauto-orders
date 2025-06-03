@@ -368,6 +368,20 @@ setDeleteItemAction = () => {
 
 setDeleteItemAction();
 
+// setting the delete location action
+setDeleteLocationAction = () => {
+  let dellocation_buttons = document.getElementsByClassName('btn-dellocation');
+  let form = document.getElementById('deletelocation-form');
+  
+  Array.prototype.forEach.call(dellocation_buttons, btn => btn.addEventListener('click', (event) => {
+    form.action = form.dataset.root + '/locations/' +  event.currentTarget.dataset.location;
+    const row = event.currentTarget.parentNode.parentNode;
+    document.getElementById('location-info-description').innerText = row.cells[1].innerHTML + ', ' + row.cells[2].innerHTML;
+  }));
+}
+
+setDeleteLocationAction();
+
 // ------------------------------------------------------------
 //                    Setting Delete Actions
 // ------------------------------------------------------------

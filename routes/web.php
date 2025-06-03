@@ -1,9 +1,10 @@
 <?php
 
+use App\Http\Controllers\CarController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ItemController;
+use App\Http\Controllers\LocationController;
 use App\Http\Controllers\OrderController;
-use App\Http\Controllers\CarController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -42,5 +43,10 @@ Route::resource('cars', CarController::class)->except([
 
 Route::get('items/search', [ItemController::class, 'search'])->name('items.search');
 Route::resource('items', ItemController::class)->except([
+    'show'
+]);
+
+Route::get('locations/search', [LocationController::class, 'search'])->name('locations.search');
+Route::resource('locations', LocationController::class)->except([
     'show'
 ]);
