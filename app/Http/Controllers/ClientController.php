@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Order;
 use App\Models\Client;
+use App\Models\Location;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\ClientRequest;
@@ -29,7 +30,7 @@ class ClientController extends Controller
      */
     public function index(Request $request)
     {
-        $clients = Client::orderBy('id', 'desc')->paginate(10);
+        $clients = Client::with('location')->orderBy('id', 'desc')->paginate(10);
 
         if ($request->get('page'))
         {
@@ -62,7 +63,9 @@ class ClientController extends Controller
      */
     public function create()
     {
-        return view('clients.create');
+        $locations = Location::All();
+
+        return view('clients.create', compact('locations'));
     }
 
     /**
@@ -107,7 +110,9 @@ class ClientController extends Controller
      */
     public function edit(Client $client)
     {
-        return view('clients.edit', compact('client'));
+        $locations = Location::All();
+
+        return view('clients.edit', compact('client', 'locations'));
     }
 
     /**
@@ -124,7 +129,7 @@ class ClientController extends Controller
         $client->fill($data);
         $client->save();
 
-        return redirect('/clients');
+        return redirect()->route('clients.show', $client->id);
     }
 
     /**

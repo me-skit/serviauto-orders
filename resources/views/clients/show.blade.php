@@ -16,11 +16,14 @@
                 <a href="{{ route('clients.index') }}" class="btn btn-secondary my-1"><i class="fas fa-arrow-circle-left"></i><span class="d-none d-lg-inline"> Clientes</span></a>
               </div>
               <hr class="my-0">
-              <p class="my-0"><i class="fas fa-phone-rotary"></i> {{ $client->phone_number }}</p>
+              @if ($client->phone_number)
+                <p class="my-0 text-secondary"><i class="fas fa-phone-rotary"></i> {{ $client->phone_number }}</p>                  
+              @endif
+              <p class="my-0 text-secondary"><i class="fas fa-car-mechanic"></i> {{ $client->location->location }}</p>
             </div>
           </div>
 
-          {{-- tabs --}}
+          {{-- tab headers --}}
           <ul class="nav nav-tabs" id="myTab" role="tablist">
             <li class="nav-item" role="presentation">
               <button class="nav-link{{ $tab ? '': ' active' }}" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true"><i class="fas fa-clipboard-list"></i> Ordenes</button>
@@ -32,6 +35,8 @@
               <button class="nav-link{{ ($tab === 'historic') ? ' active': '' }}" id="historic-tab" data-bs-toggle="tab" data-bs-target="#historic-tab-pane" type="button" role="tab" aria-controls="historic-tab-pane" aria-selected="false"><i class="fas fa-history"></i> Historial</button>
             </li>
           </ul>
+
+          {{-- tab content --}}
           <div class="tab-content" id="myTabContent">
             <div class="tab-pane fade p-2{{ $tab ? '': ' show active' }}" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
               <div class="text-end">

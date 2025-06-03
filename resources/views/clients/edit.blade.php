@@ -49,7 +49,24 @@
                     </span>
                   @enderror
                 </div>
-              </div>              
+              </div>
+
+              <div class="form-group row mb-3">
+                <label for="location_id" class="col-md-3 col-form-label text-md-end">{{ __('Taller') }}<span class="text-danger">*</span></label>
+                <div class="col-md-7">
+                  <select name="location_id" id="location_id"  class="form-select" required>
+                    @foreach ($locations as $location)
+                      <option value="{{ $location->id }}" {{ $location->id == $client->location_id ? 'selected' : '' }}>{{ $location->location }}</option>
+                    @endforeach
+                  </select>
+
+                  @error('location_id')
+                    <span class="invalid-feedback" role="alert">
+                      <strong>{{ $message }}</strong>
+                    </span>
+                  @enderror
+                </div>
+              </div>
 
               <div class="row">
                 <div class="col-md-10 text-end">

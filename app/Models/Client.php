@@ -9,7 +9,12 @@ class Client extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'phone_number', 'created_by', 'updated_by'];
+    protected $fillable = ['name', 'location_id', 'phone_number', 'created_by', 'updated_by'];
+
+    public function Location()
+    {
+        return $this->belongsTo(Location::class);
+    }
 
     public function orders()
     {

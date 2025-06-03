@@ -12,6 +12,7 @@
               <th class="text-center">No.</th>
               <th>Nombre</th>
               <th>Teléfono(s)</th>
+              <th>Taller</th>
               <th class="text-center">Acciones</th>
           </tr>
       </thead>
@@ -21,6 +22,7 @@
             <td class="align-middle text-center">{{ ($clients->currentPage() - 1) * $clients->perPage() + $key + 1 }}</td>
             <td class="align-middle">{{ $client->name }}</td>
             <td class="align-middle">{{ $client->phone_number }}</td>
+            <td class="align-middle">{{ $client->location->location }}</td>
             <td class="text-center">
               <a href="{{ route('clients.show', $client->id ) }}" class="btn btn-secondary btn-sm"><i class="fas fa-eye"></i><span class="d-none d-md-inline"> Detalles</span></a>
             </td>
