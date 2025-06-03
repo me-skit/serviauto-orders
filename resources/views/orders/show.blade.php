@@ -9,18 +9,17 @@
     <div class="row justify-content-center">
       <div class="col-md-12 col-lg-11 d-flex justify-content-between">
         <div class="d-flex">
-          <img src = "../images/servi-logo.png" alt="ServiAuto logo" height="130"/>
+          <img src = "../images/servi-logo.png" alt="ServiAuto logo" height="110"/>
           <div class="text-center ms-2">
             <h2 class="mb-0 fw-bolder"><i><span class="text-primary">Servi</span><span class="text-danger">Auto</span></i></h2>
             <h6 class="mb-0">Servicios Mecánicos y</h5>
-            <h6 class="mt-0">Diagnóstico Computarizado</h5>
-            <p class="small mb-0"><i>13 calle 30-45, zona 7, Tikal I</i></p>
-            <p class="small mt-0"><i>Tel.: 5928 3710</i></p>
+            <h6 class="my-0">Diagnóstico Computarizado</h5>
+            <p class="small my-0"><i> {{ $order->client->location->address . ', ' . $order->client->location->location }}</i></p>
+            <p class="small mt-0"><i>Tel.: {{ $order->client->location->formatted_phone }}</i></p>
           </div>
         </div>
         <div class="text-center">
-          <h6>Orden de</h6>
-          <h6>Trabajo</h6>
+          <h6>Orden de</br>Trabajo</h6>
           <h6><span class="text-danger fw-bold">SA-{{ str_pad($order->id, 6, '0', STR_PAD_LEFT) }}</span></h6>
         </div>
       </div>
@@ -163,18 +162,19 @@
                         <td>{{ $item->description }}</td>
                         <td class="text-end align-middle">{{ number_format($item->price, 2, '.', ',') }}</td>
                         <td class="text-end align-middle">{{ number_format($item->quantity * $item->price, 2, '.', ',') }}</td>
-                        <td></td>                       
+                        <td></td>
                       </tr>
                     @endforeach
+                  
+                    <tr style="border-style: solid none none none; border-width: 2px;">
+                      <td></td>
+                      <td class="text-center" colspan="2">TOTAL</td>
+                      <td class="text-end text-truncate" id="total-cell">
+                        {{ $order->total }}
+                      </td>
+                      <td></td>
+                    </tr>
                   </tbody>
-                  <tfoot>
-                    <td></td>
-                    <td class="text-center" colspan="2">TOTAL</td>
-                    <td class="text-end text-truncate" id="total-cell">
-                      {{ $order->total }}
-                    </td>
-                    <td></td>
-                  </tfoot>
                 </table>
               </div>
             </div>
