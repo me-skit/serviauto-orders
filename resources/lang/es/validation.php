@@ -146,6 +146,16 @@ return [
     |
     */
 
-    'attributes' => [],
+    'attributes' => [
+        // 'location' => 'Lugar',
+        // 'address' => 'Dirección',
+        // 'phone' => 'Teléfono',
+        // 'name' => 'Nombre',
+        // 'phone_number' => 'Teléfono',
+        // 'description' => 'Descripción',
+        // 'cost' => 'Costo',
+        // 'price' => 'Precio',
+        // 'stock' => 'Stock',
+    ],
 
 ];

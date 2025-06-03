@@ -6,18 +6,17 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body text-center">
-        <p class="mb-2">Nombre de Repuesto o Servicio:</p>
         <b id="item-info-description">
         </b>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-          <form id="deleteitem-form" action="#" method="POST" data-root="{{ url('/') }}">
-            @csrf
-            @method('delete')
+        <form id="deleteitem-form" action="#" method="POST" data-root="{{ url('/') }}">
+          @csrf
+          @method('delete')
 
-            <button type="submit" class="btn btn-danger">Eliminar</button>
-          </form>
+          <button type="submit" class="btn btn-danger">Eliminar</button>
+        </form>
       </div>
     </div>
   </div>
