@@ -63,6 +63,11 @@ class OrderController extends Controller
         $order_items = $request->input('order_items');
         if ($order_items) {
             foreach ($order_items as $item_data) {
+                if ($item_data['quantity'] == '*') {
+                    $item_data['quantity'] = 1;
+                    $item_data['is_service'] = 1;
+                }
+
                 $order->items()->create($item_data);
             }
         }
@@ -163,9 +168,9 @@ class OrderController extends Controller
         $order->save();
 
         // update items
-        $order_items = $request->input('order_items');
-        $items = $order->items;
-        $this->UpdateItems($items, $order_items, $order);
+        $new_items = $request->input('order_items');
+        $current_items = $order->items;
+        $this->UpdateItems($current_items, $new_items, $order);
 
         return redirect('/clients/' . $code . ($tab ? '?tab=' . $tab : ''));
     }
@@ -217,45 +222,43 @@ class OrderController extends Controller
         return redirect('/clients/' . $code)->with('info','Orden No. ' . $order->id . ' eliminada.');
     }
 
-    private function UpdateItems($items, $order_items, $order)
+    private function UpdateItems($current_items, $new_items, $order)
     {
-        $new_size = $order_items ? sizeof($order_items) : 0;
-        $old_size = $items->count();
+        $new_size = $new_items ? sizeof($new_items) : 0;
+        $current_size = $current_items->count();
 
-        $difference = $new_size - $old_size;
+        $difference = $new_size - $current_size;
         if ($difference)
         {
             if ($difference < 0) {
-                $this->UpdateAndDelete($items, $order_items, $new_size);
+                $this->UpdateAndDeleteRows($current_items, $new_items, $new_size);
             }
             else
             {
-                $this->UpdateAndCreate($items, $order_items, $old_size, $order);
+                $this->UpdateAndAddRows($current_items, $new_items, $current_size, $order);
             }
         }
         else
         {
-            $this->UpdateSame($items, $order_items);
+            $this->UpdateRows($current_items, $new_items);
         }
     }
 
-    private function UpdateSame($items, $order_items)
+    private function UpdateRows($current_items, $new_items)
     {
-        foreach ($items as $key => $item)
+        foreach ($current_items as $key => $item)
         {
-            $item->fill($order_items[$key]);
-            $item->save();
+            $this->UpdateItemData($item, $new_items[$key]);
         }
     }
 
-    private function UpdateAndDelete($items, $order_items, $new_size)
+    private function UpdateAndDeleteRows($current_items, $new_items, $new_size)
     {
-        foreach ($items as $key => $item)
+        foreach ($current_items as $key => $item)
         {
             if ($key < $new_size)
             {
-                $item->fill($order_items[$key]);
-                $item->save();
+                $this->UpdateItemData($item, $new_items[$key]);
             }
             else
             {
@@ -264,19 +267,36 @@ class OrderController extends Controller
         }
     }
     
-    private function UpdateAndCreate($items, $order_items, $old_size, $order)
+    private function UpdateAndAddRows($current_items, $new_items, $current_size, $order)
     {
-        foreach ($order_items as $key => $item_data)
+        foreach ($new_items as $key => $item_data)
         {
-            if ($key < $old_size)
+            if ($key < $current_size)
             {
-                $items[$key]->fill($item_data);
-                $items[$key]->save();
+                $this->UpdateItemData($current_items[$key], $item_data);
             }
             else
             {
+                if ($item_data['quantity'] == '*') {
+                    $item_data['quantity'] = 1;
+                    $item_data['is_service'] = 1;
+                } 
+
                 $order->items()->create($item_data);
             }
         }
+    }
+
+    private function UpdateItemData($item, $item_data)
+    {
+        if ($item_data['quantity'] == '*') {
+            $item_data['quantity'] = 1;
+            $item_data['is_service'] = 1;
+        } else {
+            $item_data['is_service'] = 0;
+        }
+
+        $item->fill($item_data);
+        $item->save();
     }
 }

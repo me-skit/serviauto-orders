@@ -24,12 +24,17 @@
                 @foreach ($order->items as $key => $item)
                   <tr>
                     <td class="col-sm-2 col-md-1">
-                      <input type="number"
+                      <input type="{{ $item->is_service ? 'text' : 'number' }}"
                         class="form-control quantity-input"
                         name="order_items[{{ $key }}][quantity]"
                         min="1" max="9999"
-                        value="{{ $item->quantity }}"
+                        value="{{ $item->is_service ? '*' : $item->quantity }}"
                         required
+                        @if ($item->is_service)
+                          pattern="\*"
+                          minLength="1"
+                          maxLength="1"
+                        @endif
                       >
                     </td>
                     <td class="col-sm-7 col-md-5">

@@ -82,13 +82,33 @@ const deleteRow = button => {
 //                        On Input Actions
 // ------------------------------------------------------------
 
+const onQuantityKeydown = event => {
+  const quantityInput = event.target;
+
+  if (event.key === '*') {
+    quantityInput.type = 'text';
+    quantityInput.value = '';
+    quantityInput.setAttribute("pattern","\\*");
+    quantityInput.minLength = 1;
+    quantityInput.maxLength = 1;
+  }
+  else if ((isNaN(quantityInput.value) || (quantityInput.value === '')) && 
+           ((event.keyCode >= 48 && event.keyCode <= 57) || (event.keyCode >= 96 && event.keyCode <= 105))) {
+    quantityInput.type = 'number';
+    quantityInput.value = '';
+    quantityInput.removeAttribute('pattern');
+    quantityInput.removeAttribute('minLength');
+    quantityInput.removeAttribute('maxLength');
+  }
+}
+
 const onQuantityInput = event => {
   const row = event.target.parentNode.parentNode;
   const priceValue = row.cells[2].children[0].value.replace(/,/g, '');
   const quantityValue = event.target.value;
 
   if (priceValue && quantityValue) {
-    row.cells[3].innerText = (parseInt(quantityValue) * parseFloat(priceValue)).toLocaleString(undefined, {minimumFractionDigits: 2});
+    row.cells[3].innerText = ((quantityValue === '*' ? 1 : parseInt(quantityValue)) * parseFloat(priceValue)).toLocaleString(undefined, {minimumFractionDigits: 2});
   }
   else {
     row.cells[3].innerText = '';
@@ -111,7 +131,7 @@ const onDetailsInput = event => {
 
     priceInput.value = parseFloat(price).toLocaleString(undefined, {minimumFractionDigits: 2});
     if (quantityInput.value) {
-      subtotalCell.innerText = (parseInt(quantityInput.value) * parseFloat(price)).toLocaleString(undefined, {minimumFractionDigits: 2});
+      subtotalCell.innerText = ((quantityInput.value === '*' ? 1 : parseInt(quantityInput.value)) * parseFloat(price)).toLocaleString(undefined, {minimumFractionDigits: 2});
     }
   }
 
@@ -124,7 +144,7 @@ const onPriceInput = event => {
   const priceValue = event.target.value.replace(/,/g, '');
 
   if (priceValue && quantityValue) {
-    row.cells[3].innerText = (parseInt(quantityValue) * parseFloat(priceValue)).toLocaleString(undefined, {minimumFractionDigits: 2});
+    row.cells[3].innerText = ((quantityValue === '*' ? 1 : parseInt(quantityValue)) * parseFloat(priceValue)).toLocaleString(undefined, {minimumFractionDigits: 2});
   }
   else {
     row.cells[3].innerText = '';
@@ -138,23 +158,27 @@ const onPriceInput = event => {
 // ------------------------------------------------------------
 
 const quantityInputs = document.getElementsByClassName('quantity-input');
-Array.prototype.forEach.call(quantityInputs, item => {
-  item.addEventListener('input', onQuantityInput);
+Array.prototype.forEach.call(quantityInputs, input => {
+  input.addEventListener('keydown', onQuantityKeydown);
+});
+
+Array.prototype.forEach.call(quantityInputs, input => {
+  input.addEventListener('input', onQuantityInput);
 });
 
 const descriptionInputs = document.getElementsByClassName('description-input');
-Array.prototype.forEach.call(descriptionInputs, item => {
-  item.addEventListener('input', onDetailsInput);
+Array.prototype.forEach.call(descriptionInputs, input => {
+  input.addEventListener('input', onDetailsInput);
 });
 
 const priceInputs = document.getElementsByClassName('price-input');
-Array.prototype.forEach.call(priceInputs, item => {
-  item.addEventListener('input', onPriceInput);
+Array.prototype.forEach.call(priceInputs, input => {
+  input.addEventListener('input', onPriceInput);
 });
 
 const delButtons = document.getElementsByClassName('del-button');
-Array.prototype.forEach.call(delButtons, item => {
-  item.addEventListener('click', () => deleteRow(item));
+Array.prototype.forEach.call(delButtons, button => {
+  button.addEventListener('click', () => deleteRow(button));
 });
 
 // ------------------------------------------------------------
@@ -168,7 +192,8 @@ const createQuantityInput = rowCount => {
     quantityInput.setAttribute('name', `order_items[${rowCount}][quantity]`);
     quantityInput.setAttribute('min', '1');
     quantityInput.setAttribute('max', '9999');
-    quantityInput.addEventListener('input', onQuantityInput);
+    quantityInput.addEventListener('keydown', onQuantityKeydown);
+    quantityInput.addEventListener('input', onQuantityInput);    
     quantityInput.value = 1;
     quantityInput.required = true;
     return quantityInput;
@@ -239,7 +264,7 @@ if (button) {
 //                  Validations On Submit Form
 // ------------------------------------------------------------
 
-const isthereAnEmptyInput = () => {
+const isThereAWrongInput = () => {
   const bodyTable = document.getElementById('body-table');
 
   for (const row of bodyTable.rows) {
@@ -249,21 +274,25 @@ const isthereAnEmptyInput = () => {
 
     quantityInput.setCustomValidity('');
     if (quantityInput.value.trim() == '') {
-      quantityInput.setCustomValidity('La cantidad de artículos no puede estar vacía');
+      quantityInput.setCustomValidity('Cantidad no puede estar vacía');
+      quantityInput.reportValidity();
+      return true;
+    } else if (quantityInput.validity.patternMismatch) {
+      quantityInput.setCustomValidity('Cantidad debe ser un número o asterisco (*)');
       quantityInput.reportValidity();
       return true;
     }
 
     descriptionInput.setCustomValidity('');
     if (descriptionInput.value.trim() == '') {
-      descriptionInput.setCustomValidity('Artículo o servicio no puede ser vacío');
+      descriptionInput.setCustomValidity('Artículo o servicio no puede estar vacío');
       descriptionInput.reportValidity();
       return true;
     }
 
     priceInput.setCustomValidity('');
     if (priceInput.value.trim() == '') {
-      priceInput.setCustomValidity('Precio no puede ser vacío');
+      priceInput.setCustomValidity('Precio no puede estar vacío');
       priceInput.reportValidity();
       return true;
     }
@@ -273,7 +302,7 @@ const isthereAnEmptyInput = () => {
 };
 
 const submitOrderForm = () => {
-  if (isthereAnEmptyInput()) {
+  if (isThereAWrongInput()) {
       return false;
   }
 

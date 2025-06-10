@@ -158,7 +158,7 @@
                   <tbody id="body-table">
                     @foreach ($order->items as $item)
                       <tr>
-                        <td class="text-center align-middle">{{ $item->quantity }}</td>
+                        <td class="text-center align-middle">{{ $item->is_service ? '*' : $item->quantity }}</td>
                         <td>{{ $item->description }}</td>
                         <td class="text-end align-middle">{{ number_format($item->price, 2, '.', ',') }}</td>
                         <td class="text-end align-middle">{{ number_format($item->quantity * $item->price, 2, '.', ',') }}</td>
