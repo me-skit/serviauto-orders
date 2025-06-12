@@ -4,7 +4,8 @@
       <div class="card-header">
         <span class="fw-bold">Detalles</span>
         <button type="button" class="btn btn-success btn-sm float-end" id="btn-add-item">
-          <i class="fas fa-plus-circle"></i> Agregar
+          <i class="fas fa-plus-circle"></i>
+          <span class="d-none d-md-inline"> Agregar</span>
         </button>
       </div>
       <div class="card-body">

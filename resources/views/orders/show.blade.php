@@ -29,6 +29,9 @@
       <div class="col-md-12 col-lg-11 d-flex justify-content-end">
         <div class="d-print-none">
           <a id="btn-print" href="#" class="btn btn-light ms-1"><i class="fas fa-print"></i><span class="d-none d-md-inline"> Imprimir</span></a>
+          @if (!$order->finished)
+            <a href="{{ route('orders.edit', $order->id) . '?code=' . $order->client->id . '&source=show' }}" class="btn btn-primary ms-1"><i class="fas fa-pencil-alt"></i><span class="d-none d-md-inline"> Modificar</span></a>                
+          @endif
         </div>
       </div>
     </div>

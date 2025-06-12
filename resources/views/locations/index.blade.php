@@ -4,7 +4,7 @@
   <div class="container">
     <div class="row justify-content-center mb-3">
       <div class="col-md-12 col-lg-10 col-xl-8 d-flex justify-content-between align-items-baseline">
-        <h2 id="title" data-default-path="locations" data-query-path="locations/search"><i class="fas fa-car-mechanic"></i> Talleres</h2>
+        <h3 id="title" data-default-path="locations" data-query-path="locations/search"><i class="fas fa-car-mechanic"></i> Talleres</h3>
         <div>
           <a href="{{ route('locations.create') }}" class="btn btn-success"><i class="fas fa-plus-circle"></i><span class="d-none d-lg-inline"> Nuevo</span></a>
         </div>

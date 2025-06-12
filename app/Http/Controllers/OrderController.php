@@ -86,7 +86,7 @@ class OrderController extends Controller
             $car->save();
         }
 
-        return redirect('/clients/' . $code);
+        return redirect('/orders/' . $order->id . '?code=' . $code);
     }
 
     /**
@@ -115,12 +115,13 @@ class OrderController extends Controller
     {
         $code = $request->get('code');
         $tab = $request->get('tab');
+        $source = $request->get('source');
 
         $client = Client::find($code);
 
         $items_list = Item::orderBy('description')->get();
 
-        return view('orders.edit', compact('order', 'client', 'items_list', 'tab'));
+        return view('orders.edit', compact('order', 'client', 'items_list', 'tab', 'source'));
     }
 
     /**
@@ -172,7 +173,7 @@ class OrderController extends Controller
         $current_items = $order->items;
         $this->UpdateItems($current_items, $new_items, $order);
 
-        return redirect('/clients/' . $code . ($tab ? '?tab=' . $tab : ''));
+        return redirect('/orders/' . $order->id . '?code=' . $code . ($tab ? '&tab=' . $tab : ''));
     }
 
     /**

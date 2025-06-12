@@ -4,7 +4,7 @@
   <div class="container">
     <div class="row justify-content-center mb-3">
       <div class="col-md-12 col-lg-10 col-xl-8 d-flex justify-content-between align-items-baseline">
-        <h2 id="title" data-default-path="clients" data-query-path="clients/search"><i class="fas fa-user-friends"></i> Clientes</h2>
+        <h3 id="title" data-default-path="clients" data-query-path="clients/search"><i class="fas fa-user-friends"></i> Clientes</h2>
         <div>
           <a href="{{ route('clients.create') }}" class="btn btn-success"><i class="fas fa-plus-circle"></i><span class="d-none d-md-inline"> Nuevo</span></a>
         </div>

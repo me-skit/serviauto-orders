@@ -8,9 +8,9 @@
 
       <div class="row justify-content-center mb-md-2">
         <div class="col-md-12 col-lg-11 d-flex justify-content-between">
-          <h2><i class="fas fa-clipboard-list"></i> Editar Orden<span class="d-none d-md-inline"> de Trabajo</span></h2>
+          <h3><i class="fas fa-clipboard-list"></i> Editar Orden<span class="d-none d-md-inline"> de Trabajo</span></h3>
 
-          <div>
+          <div class="mb-1">
             <a href="#" class="btn btn-danger align-self-center{{ $order->items->count() ? ' disabled' : '' }}" role="button" aria-disabled="{{ $order->items->count() ? 'false' : 'true' }}" data-bs-toggle="modal" data-bs-target="#delOrderModal">
               <i class="fas fa-trash-alt"></i>
               <span class="d-none d-md-inline"> Eliminar</span>
@@ -134,7 +134,11 @@
 
       <div class="row justify-content-center">
         <div class="col-md-12 col-lg-11 text-end">
-          <a href="{{ route('clients.show', $client) . ($tab ? '?tab=' . $tab : '') }}" class="btn btn-secondary me-1"><i class="fas fa-arrow-circle-left"></i> {{  __('Cancelar') }}</a>
+          @if ($source == 'show')
+            <a href="{{ route('orders.show', $order->id) . '?code=' . $client->id . ($tab ? '&tab=' . $tab : '') }}" class="btn btn-secondary me-1"><i class="fas fa-arrow-circle-left"></i> {{  __('Cancelar') }}</a>
+          @else
+            <a href="{{ route('clients.show', $client) . ($tab ? '?tab=' . $tab : '') }}" class="btn btn-secondary me-1"><i class="fas fa-arrow-circle-left"></i> {{  __('Cancelar') }}</a>
+          @endif
           <button type="submit" id="btn-submit" class="btn btn-primary"><i class="fas fa-save"></i> {{ __('Guardar') }}</button>
         </div>
       </div>

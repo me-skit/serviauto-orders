@@ -7,7 +7,7 @@
 
       <div class="row justify-content-center mb-md-2">
         <div class="col-md-12 col-lg-11">
-          <h2><i class="far fa-clipboard-list"></i> Nueva Orden<span class="d-none d-md-inline"> de Trabajo</span></h2>
+          <h3><i class="far fa-clipboard-list"></i> Nueva Orden<span class="d-none d-md-inline"> de Trabajo</span></h3>
         </div>
       </div>
 
